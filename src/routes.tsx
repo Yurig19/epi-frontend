@@ -3,11 +3,24 @@ import { lazy, Suspense } from 'react';
 import { Skeleton } from './components/ui/skeleton';
 import { useAuth } from './contexts/authContexts';
 
-// AUTH
+// AUTH ROUTES
 const LoginPage = lazy(() => import('./pages/login'));
 
+// SYSTEM ROUTES
 const DashboardPage = lazy(() => import('./pages/dashboard'));
-const EpiManagementPage = lazy(() => import('./pages/epiManagement'));
+
+const PpeFormsManagementPage = lazy(() => import('./pages/ppeFormsManagement'));
+
+const PpeManagementsPage = lazy(() => import('./pages/ppeManagements'));
+
+const EmployeesManagementsPage = lazy(
+  () => import('./pages/employeesManagements')
+);
+
+const AuditsPage = lazy(() => import('./pages/audits'));
+const LogsPage = lazy(() => import('./pages/errorLogs'));
+
+const ProfilePage = lazy(() => import('./pages/profile'));
 
 const SkeletonLoader = () => (
   <div className='flex flex-col space-y-4 items-center justify-center h-screen'>
@@ -26,12 +39,36 @@ const authRoutes = [
 
 const systemRoutes = [
   {
+    path: '/',
+    element: <DashboardPage />,
+  },
+  {
+    path: '/profile',
+    element: <ProfilePage />,
+  },
+  {
     path: '/dashboard',
     element: <DashboardPage />,
   },
   {
-    path: '/epi-management',
-    element: <EpiManagementPage />,
+    path: '/ppeFormsManagements',
+    element: <PpeFormsManagementPage />,
+  },
+  {
+    path: '/ppeManagements',
+    element: <PpeManagementsPage />,
+  },
+  {
+    path: '/employeesManagements',
+    element: <EmployeesManagementsPage />,
+  },
+  {
+    path: '/audits',
+    element: <AuditsPage />,
+  },
+  {
+    path: '/logs',
+    element: <LogsPage />,
   },
 ];
 
@@ -44,10 +81,9 @@ export function ProjectRoutes() {
   return (
     <Suspense fallback={<SkeletonLoader />}>
       <Routes>
-        {!user &&
-          authRoutes.map(({ path, element }) => (
-            <Route key={path} path={path} element={element} />
-          ))}
+        {authRoutes.map(({ path, element }) => (
+          <Route key={path} path={path} element={element} />
+        ))}
         {user &&
           user.role === 'admin' &&
           systemRoutes.map(({ path, element }) => (

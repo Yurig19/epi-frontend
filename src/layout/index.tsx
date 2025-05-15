@@ -21,11 +21,11 @@ interface LayoutProps {
   breadCrumbItems?: BreadcrumbItemProps[];
 }
 
-const LayoutBase = ({
+export function LayoutBase({
   children,
   title,
   breadCrumbItems = [{ label: 'Dashboard', route: '/dashboard' }],
-}: LayoutProps) => {
+}: LayoutProps) {
   return (
     <SidebarProvider>
       <div className='flex min-h-screen w-full bg-background text-foreground'>
@@ -79,6 +79,4 @@ const LayoutBase = ({
       </div>
     </SidebarProvider>
   );
-};
-
-export default LayoutBase;
+}

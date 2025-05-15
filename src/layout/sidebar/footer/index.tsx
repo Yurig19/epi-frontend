@@ -65,7 +65,7 @@ const SidebarFooterApp = ({
             </DropdownMenuLabel>
             <DropdownMenuItem
               className='gap-2 p-2'
-              onClick={() => navigate('/admin/profile')}
+              onClick={() => navigate('/profile')}
             >
               <User className='size-4' />
               <span>Perfil</span>

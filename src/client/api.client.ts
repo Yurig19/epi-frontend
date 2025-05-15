@@ -53,7 +53,6 @@ class ApiClient {
 
     try {
       const response = await fetch(url, options);
-
       const result = await response.json();
 
       if (response.ok) {
@@ -63,7 +62,14 @@ class ApiClient {
         };
       }
 
-      throw new Error(result.error || 'Erro desconhecido');
+      const errorMessage =
+        result.message || result.error || 'Erro desconhecido!';
+      return {
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        data: null as any,
+        status: response.status,
+        error: errorMessage,
+      };
     } catch (error) {
       return {
         // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -73,7 +79,6 @@ class ApiClient {
       };
     }
   }
-
   get<T>(endpoint: string): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, 'GET');
   }

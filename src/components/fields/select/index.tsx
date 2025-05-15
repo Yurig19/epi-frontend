@@ -28,43 +28,43 @@ interface SelectFieldProps<T extends FieldValues> {
   rules?: RegisterOptions<T>;
 }
 
-const SelectField = <T extends FieldValues>({
+export function SelectField<T extends FieldValues>({
   control,
   name,
   label,
   options,
   disabled,
   rules,
-}: SelectFieldProps<T>) => (
-  <FormField
-    control={control}
-    name={name}
-    rules={rules}
-    render={({ field, fieldState }) => (
-      <FormItem>
-        <FormLabel>{label}</FormLabel>
-        <FormControl>
-          <Select
-            value={field.value}
-            onValueChange={field.onChange}
-            disabled={disabled}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder='Selecione uma opção' />
-            </SelectTrigger>
-            <SelectContent>
-              {options.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </FormControl>
-        <FormMessage>{fieldState.error?.message}</FormMessage>
-      </FormItem>
-    )}
-  />
-);
-
-export default SelectField;
+}: SelectFieldProps<T>) {
+  return (
+    <FormField
+      control={control}
+      name={name}
+      rules={rules}
+      render={({ field, fieldState }) => (
+        <FormItem>
+          <FormLabel>{label}</FormLabel>
+          <FormControl>
+            <Select
+              value={field.value}
+              onValueChange={field.onChange}
+              disabled={disabled}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder='Selecione uma opção' />
+              </SelectTrigger>
+              <SelectContent>
+                {options.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FormControl>
+          <FormMessage>{fieldState.error?.message}</FormMessage>
+        </FormItem>
+      )}
+    />
+  );
+}

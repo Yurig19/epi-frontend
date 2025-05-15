@@ -1,28 +1,19 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import InputField from '@/components/fields/input';
+import { InputField } from '@/components/fields/input';
 import { useAuth } from '@/contexts/authContexts';
-
-const signInForm = z.object({
-  email: z.string().email({ message: 'E-mail inválido' }),
-  password: z
-    .string()
-    .min(6, { message: 'A senha deve ter no mínimo 6 caracteres' }),
-});
-
-type SignInForm = z.infer<typeof signInForm>;
+import { authLogin } from '@/schemas/auth.schema';
 
 export default function LoginPage() {
   const { handleLogin } = useAuth();
   const navigate = useNavigate();
 
-  const form = useForm<SignInForm>({
-    resolver: zodResolver(signInForm),
+  const form = useForm<AuthLoginDto>({
+    resolver: zodResolver(authLogin),
     defaultValues: {
       email: '',
       password: '',
@@ -35,11 +26,11 @@ export default function LoginPage() {
     formState: { isSubmitting },
   } = form;
 
-  async function handleSignIn(data: SignInForm) {
+  async function handleSignIn(data: AuthLoginDto) {
     try {
       await handleLogin(data);
       toast.success('Login realizado com sucesso!');
-      navigate('/epi-management');
+      navigate('/dashboard');
     } catch (error) {
       console.error(error);
       toast.error('Credenciais inválidas!', {
@@ -69,7 +60,7 @@ export default function LoginPage() {
 
           <Form {...form}>
             <form onSubmit={handleSubmit(handleSignIn)} className='space-y-4'>
-              <InputField<SignInForm>
+              <InputField
                 control={control}
                 name='email'
                 label='Seu e-mail'
@@ -77,7 +68,7 @@ export default function LoginPage() {
                 type='email'
               />
 
-              <InputField<SignInForm>
+              <InputField
                 control={control}
                 name='password'
                 label='Sua senha'

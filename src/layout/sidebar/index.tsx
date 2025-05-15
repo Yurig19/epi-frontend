@@ -23,7 +23,15 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { useAuth } from '@/contexts/authContexts';
-import { Building2, ChevronRight, Home } from 'lucide-react';
+import {
+  Building2,
+  ChevronRight,
+  FileSearch,
+  LayoutDashboard,
+  ScrollText,
+  User,
+  Wrench,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SidebarFooterApp from './footer';
@@ -42,16 +50,52 @@ type MenuGroup = {
 
 const menuGroups: MenuGroup[] = [
   {
-    label: 'Dashboard',
-    items: [{ name: 'dashboard', icon: Home, url: '/dashboard' }],
+    label: '',
+    items: [{ name: 'Dashboard', icon: LayoutDashboard, url: '/dashboard' }],
   },
   {
-    label: 'Gestão de EPIs',
+    label: 'Gestão de Ficha de EPIs',
+    items: [
+      {
+        name: 'Fichas de EPIs',
+        icon: Building2,
+        url: '/ppeFormsManagements',
+      },
+    ],
+  },
+  {
+    label: 'Gestão de Equipamentos',
     items: [
       {
         name: 'EPI',
-        icon: Building2,
-        subItems: [{ name: 'EPI', url: '/epi-management' }],
+        icon: Wrench,
+        url: '/ppeManagements',
+      },
+    ],
+  },
+  {
+    label: 'Gestão de Funcionários',
+    items: [
+      {
+        name: 'Funcionários',
+        icon: User,
+        url: '/employeesManagements',
+      },
+    ],
+  },
+
+  {
+    label: 'Gestão da plataforma',
+    items: [
+      {
+        name: 'Auditoria',
+        icon: FileSearch,
+        url: '/audits',
+      },
+      {
+        name: 'Logs',
+        icon: ScrollText,
+        url: '/logs',
       },
     ],
   },
