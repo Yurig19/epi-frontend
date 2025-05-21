@@ -31,8 +31,6 @@ export function PpeForms({ form, ppesOptions, employeesList }: PpeFormsProps) {
   const [quantity, setQuantity] = useState(1);
   const [ppeList, setPpeList] = useState<PpeItem[]>([]);
 
-  console.log(employeesList);
-
   const handleAdd = () => {
     const selectedPpe = ppesOptions.find((ppe) => ppe.uuid === selectedPpeUuid);
     if (!selectedPpe || quantity <= 0) return;

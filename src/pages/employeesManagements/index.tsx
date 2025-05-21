@@ -54,7 +54,13 @@ export default function EmployeesManagementsPage() {
     { key: 'name', label: 'Nome' },
     { key: 'email', label: 'Email' },
     { key: 'phone', label: 'Telefone' },
+    { key: 'department', label: 'Setor' },
     { key: 'position', label: 'Função' },
+    {
+      key: 'dateOfAdmission',
+      label: 'Data de Admissão',
+      render: (item) => formatDate(item.dateOfAdmission),
+    },
     {
       key: 'createdAt',
       label: 'Criado em',

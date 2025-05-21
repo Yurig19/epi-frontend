@@ -3,16 +3,21 @@ import type { UseFormReturn } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { SelectField } from '@/components/fields/select';
-import { TextareaField } from '@/components/fields/textArea';
+import { DepartmentsStatusEnum } from '@/enums/departments.enum';
 
-interface PpeFormProps {
-  form: UseFormReturn<CreatePpeDto>;
-  onSubmit: (data: CreatePpeDto) => void;
+interface DepartmentsFormProps {
+  form: UseFormReturn<CreateDepartmentDto>;
+  onSubmit: (data: CreateDepartmentDto) => void;
   isLoading?: boolean;
   isView?: boolean;
 }
 
-export function PpeForm({ form, onSubmit, isView, isLoading }: PpeFormProps) {
+export function DepartmentsForm({
+  form,
+  onSubmit,
+  isView,
+  isLoading,
+}: DepartmentsFormProps) {
   const { control, handleSubmit } = form;
 
   return (
@@ -20,25 +25,9 @@ export function PpeForm({ form, onSubmit, isView, isLoading }: PpeFormProps) {
       <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
         <InputField
           name='name'
-          label='Nome do Equipamento'
+          label='Nome do departamento'
           control={control}
           placeholder='Digite o nome'
-          disabled={isView ?? false}
-        />
-
-        <InputField
-          name='caCode'
-          label='C.A'
-          control={control}
-          placeholder='Digite o C.A'
-          disabled={isView ?? false}
-        />
-
-        <TextareaField
-          name='description'
-          label='Descrição'
-          control={control}
-          placeholder='Digite a descrição'
           disabled={isView ?? false}
         />
 
@@ -48,11 +37,11 @@ export function PpeForm({ form, onSubmit, isView, isLoading }: PpeFormProps) {
           name='status'
           options={[
             {
-              value: 'active',
+              value: DepartmentsStatusEnum.ACTIVE,
               label: 'Ativo',
             },
             {
-              value: 'inactive',
+              value: DepartmentsStatusEnum.INACTIVE,
               label: 'Inativo',
             },
           ]}

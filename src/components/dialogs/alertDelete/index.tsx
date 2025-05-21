@@ -40,7 +40,7 @@ const AlertDeleteDialog = ({
       <Tooltip>
         <TooltipTrigger asChild>
           <AlertDialogTrigger asChild>
-            <Button variant='outline' size='sm'>
+            <Button variant='destructive' size='sm'>
               <Trash className='text-primary' />
             </Button>
           </AlertDialogTrigger>

@@ -10,6 +10,9 @@ const LoginPage = lazy(() => import('./pages/login'));
 const DashboardPage = lazy(() => import('./pages/dashboard'));
 
 const PpeFormsManagementPage = lazy(() => import('./pages/ppeFormsManagement'));
+const CreateEditViewPpeFormsPage = lazy(
+  () => import('./pages/ppeFormsManagement/createEditView')
+);
 
 const PpeManagementsPage = lazy(() => import('./pages/ppeManagements'));
 
@@ -17,6 +20,9 @@ const EmployeesManagementsPage = lazy(
   () => import('./pages/employeesManagements')
 );
 
+const DepartmentsManagementsPage = lazy(
+  () => import('./pages/departmentsManagement')
+);
 const AuditsPage = lazy(() => import('./pages/audits'));
 const LogsPage = lazy(() => import('./pages/errorLogs'));
 
@@ -55,12 +61,28 @@ const systemRoutes = [
     element: <PpeFormsManagementPage />,
   },
   {
+    path: '/ppeFormsManagement/create',
+    element: <CreateEditViewPpeFormsPage />,
+  },
+  {
+    path: '/ppeFormsManagement/edit/:uuid',
+    element: <CreateEditViewPpeFormsPage />,
+  },
+  {
+    path: '/ppeFormsManagement/view/:uuid',
+    element: <CreateEditViewPpeFormsPage />,
+  },
+  {
     path: '/ppeManagements',
     element: <PpeManagementsPage />,
   },
   {
     path: '/employeesManagements',
     element: <EmployeesManagementsPage />,
+  },
+  {
+    path: '/departments',
+    element: <DepartmentsManagementsPage />,
   },
   {
     path: '/audits',

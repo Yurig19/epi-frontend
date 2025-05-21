@@ -1,27 +1,27 @@
 import type { ApiResponse } from '@/client/api.client';
 import { queryClient } from '@/lib/query-client';
-import { createEmployee } from '@/services/employee.service';
+import { createDepartment } from '@/services/departments.service';
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 
-export function useCreateEmployee(): UseMutationResult<
-  ApiResponse<ReadEmployeesDto>,
+export function useCreateDepartment(): UseMutationResult<
+  ApiResponse<ReadDepartmentsDto>,
   Error,
-  CreateEmployeeDto
+  CreateDepartmentDto
 > {
   return useMutation({
-    mutationFn: createEmployee,
+    mutationFn: createDepartment,
     onSuccess: (response) => {
       if (response.error) {
         throw new Error(response.error);
       }
 
       if (response.status === 201) {
-        queryClient.invalidateQueries({ queryKey: ['employees'] });
+        queryClient.invalidateQueries({ queryKey: ['departments'] });
       }
     },
     onError: (error) => {
       console.log(error);
-      console.error('Erro ao criar funcionário:', error.message);
+      console.error('Erro ao criar Departamentos:', error.message);
     },
   });
 }

@@ -1,7 +1,7 @@
 import AlertDeleteDialog from '@/components/dialogs/alertDelete';
+import { DepartmentDialog } from '@/components/dialogs/departments';
 import { DateRangePicker } from '@/components/rangePicker';
 import DataTableWithPagination, { type Column } from '@/components/table';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -11,16 +11,17 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useDeletePpeForms } from '@/hooks/ppeForm/use-delete-ppeForm';
-import { useListPpeForms } from '@/hooks/ppeForm/use-list-ppeForm';
+import { DepartmentsStatusEnum } from '@/enums/departments.enum';
+import { useDeleteDepartments } from '@/hooks/departments/use-delete-department';
+import { useListDepartments } from '@/hooks/departments/use-list-departments';
 import { LayoutBase } from '@/layout';
 import { formatDate } from '@/utils/format-date';
-import { Eye, Pencil, Search } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Search } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
-export default function PpeFormManagementPage() {
+export default function DepartmentsManagementPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [itensPerPage, setItensPerPage] = useState<number>(
@@ -47,19 +48,18 @@ export default function PpeFormManagementPage() {
     return endDateParam ? new Date(endDateParam) : undefined;
   });
 
-  const { data, isPending, isError, error } = useListPpeForms(
+  const { data, isError, isPending, error } = useListDepartments(
     page,
     itensPerPage,
     search,
-    status,
     startDate,
     endDate
   );
 
-  const { mutate: deletePpeForms } = useDeletePpeForms();
+  const { mutate: deleteDepartments } = useDeleteDepartments();
 
-  function handleDeletePpeForms(uuid: string) {
-    deletePpeForms(uuid);
+  function handleDeleteDepartments(uuid: string) {
+    deleteDepartments(uuid);
   }
 
   useEffect(() => {
@@ -77,8 +77,8 @@ export default function PpeFormManagementPage() {
 
   useEffect(() => {
     if (isError && error) {
-      console.error('Erro ao buscar as Fichas de EPI:', error);
-      toast.error('Erro ao buscar as Fichas de EPI', {
+      console.error('Erro ao buscar os Departamentos:', error);
+      toast.error('Erro ao buscar os Departamentos', {
         duration: 3000,
         description: 'Tente novamente mais tarde.',
         richColors: true,
@@ -86,39 +86,27 @@ export default function PpeFormManagementPage() {
     }
   }, [isError, error]);
 
-  const columns: Column<ReadListPpeFormDto>[] = [
-    { key: 'employeeName', label: 'Funcionário' },
-    {
-      key: 'expirationAt',
-      label: 'Validade',
-      render: (item) =>
-        item.expirationAt ? formatDate(item.expirationAt) : '-',
-    },
+  const columns: Column<ReadListDepartmentsDto>[] = [
+    { key: 'name', label: 'Nome' },
     {
       key: 'status',
       label: 'Status',
       render: (item) => {
-        const status = item.status?.toUpperCase();
+        const isActive = item.status === DepartmentsStatusEnum.ACTIVE;
 
-        const statusColorMap: Record<string, string> = {
-          PENDING: 'bg-yellow-500',
-          SIGNED: 'bg-green-600',
-          EXPIRED: 'bg-red-500',
-        };
-
-        const statusLabelMap: Record<string, string> = {
-          PENDING: 'Pendente',
-          SIGNED: 'Assinado',
-          EXPIRED: 'Vencido',
-        };
-
-        const bgColor = statusColorMap[status] ?? 'bg-gray-400';
-        const translatedLabel = statusLabelMap[status] ?? '-';
-
+        console.log();
         return (
           <div className='flex items-center gap-2'>
-            <span className={`w-2 h-2 rounded-full ${bgColor}`} />
-            <span>{translatedLabel}</span>
+            <span
+              className={`w-2 h-2 rounded-full ${
+                isActive ? 'bg-green-500' : 'bg-red-500'
+              }`}
+            />
+            <span>
+              {item.status === DepartmentsStatusEnum.ACTIVE
+                ? 'Ativo'
+                : 'Inativo'}
+            </span>
           </div>
         );
       },
@@ -131,22 +119,18 @@ export default function PpeFormManagementPage() {
   ];
 
   return (
-    <LayoutBase title='Gerenciamento de Fichas EPI'>
+    <LayoutBase title='Gerenciamento de Departamentos'>
       <div className='flex flex-col'>
         <div className='w-full max-w-screen-2xl mx-auto mb-4'>
           <div className='flex justify-end'>
-            <Button asChild variant='outline'>
-              <Link to='/ppeFormsManagement/create'>
-                Cadastrar nova Ficha de EPI
-              </Link>
-            </Button>
+            <DepartmentDialog />
           </div>
         </div>
         <div className='flex justify-between p-4 mb-4 border border-border rounded-lg w-full max-w-screen-2xl mx-auto'>
           <div className='flex gap-4'>
             <div className='relative w-full'>
               <Input
-                placeholder='Pesquisar ficha pelo funcionário, nome do equipamento'
+                placeholder='Pesquisar ficha pelo nome do departamento'
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className='pl-10 w-96'
@@ -194,15 +178,15 @@ export default function PpeFormManagementPage() {
         ) : isError ? (
           <div className='border border-border p-5 rounded-lg w-full max-w-screen-2xl mx-auto'>
             <p className='text-red-500 text-center'>
-              Erro ao buscar as fichas de epis
+              Erro ao buscar os departamentos
             </p>
           </div>
         ) : data?.data.length === 0 ? (
           <div className='border border-border p-5 rounded-lg w-full max-w-screen-2xl mx-auto'>
-            <p className='text-center'>Nenhuma ficha encontrada</p>
+            <p className='text-center'>Nenhuma departamento encontrado</p>
           </div>
         ) : (
-          <DataTableWithPagination<ReadListPpeFormDto>
+          <DataTableWithPagination<ReadListDepartmentsDto>
             columns={columns}
             data={data?.data ?? []}
             total={data?.total ?? 0}
@@ -212,20 +196,12 @@ export default function PpeFormManagementPage() {
             onPageChange={setPage}
             actions={(item) => (
               <div className='flex items-center gap-2'>
-                <Button variant='outline' asChild>
-                  <Link to={`/ppeFormsManagement/view/${item.uuid}`}>
-                    <Eye className='w-4 h-4' />
-                  </Link>
-                </Button>
-                <Button variant='outline' asChild>
-                  <Link to={`/ppeFormsManagement/edit/${item.uuid}`}>
-                    <Pencil className='w-4 h-4' />
-                  </Link>
-                </Button>
+                <DepartmentDialog isView defaultValues={item} />
+                <DepartmentDialog isEdit defaultValues={item} />
                 <AlertDeleteDialog
-                  element='Ficha de EPI'
+                  element='Departamento'
                   elementUuid={item.uuid}
-                  handleDelete={handleDeletePpeForms}
+                  handleDelete={handleDeleteDepartments}
                 />
               </div>
             )}

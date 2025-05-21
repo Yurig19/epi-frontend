@@ -6,16 +6,18 @@ export function useListPpe(
   page: number,
   itemsPerPage: number,
   search: string,
+  status?: string,
   startDate?: Date,
   endDate?: Date
 ) {
   return useQuery({
-    queryKey: ['ppe', page, itemsPerPage, search, startDate, endDate],
+    queryKey: ['ppe', page, itemsPerPage, search, status, startDate, endDate],
     queryFn: async () => {
       const response = await getListPpe(
         page,
         itemsPerPage,
         search,
+        status,
         startDate,
         endDate
       );

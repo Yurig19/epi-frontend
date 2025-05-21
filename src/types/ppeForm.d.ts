@@ -1,13 +1,48 @@
+type LinkedEquipmentsPpeForms = {
+  ppeUuid: string;
+  quantity: number;
+};
+
+type CreatePpeFormDto = {
+  employeeUuid: string;
+  status: string;
+  expirationAt: Date;
+  linkedEquipments: LinkedEquipmentsPpeForms[];
+};
+
+type UpdatePpeFormDto = {
+  employeeUuid: string;
+  status: string;
+  expirationAt: Date;
+  linkedEquipments: LinkedEquipmentsPpeForms[];
+};
+
 type ReadListPpeFormDto = {
   uuid: string;
-  name: string;
   status: string;
-  signature: string;
   employeeUuid: string;
+  employeeName: string;
   expirationAt: Date;
   createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
+};
+
+type ReadEmployeeDataPpeFormDto = {
+  uuid: string;
+  name: string;
+};
+
+type ReadEquipmentsPpeFormsDto = {
+  uuid: string;
+  name: string;
+  quantity: number;
+};
+
+type ReadPpeFormDto = {
+  uuid: string;
+  status: string;
+  expirationAt: Date;
+  employeeData: ReadEmployeeDataPpeFormDto;
+  equipments: ReadEquipmentsPpeFormsDto[];
 };
 
 type ListPpeFormDto = {

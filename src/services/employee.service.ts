@@ -16,7 +16,7 @@ export async function listEmployees(
   );
 }
 
-export function selectEmployees(search: string) {
+export function selectEmployees(search?: string) {
   return api.get<SelectEmployeesDto[]>(`/employees/select?search=${search}`);
 }
 

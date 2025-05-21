@@ -2,7 +2,10 @@ type CreateEmployeeDto = {
   name: string;
   email: string;
   phone: string;
+  document: string;
   position?: string;
+  dateOfAdmission?: Date;
+  departmentUuid?: string;
 };
 
 type UpdateEmployeeDto = {
@@ -10,6 +13,8 @@ type UpdateEmployeeDto = {
   email?: string;
   phone?: string;
   position?: string;
+  dateOfAdmission?: Date;
+  departmentUuid?: string;
 };
 
 type SelectEmployeesDto = {
@@ -22,6 +27,11 @@ type ReadEmployeesDto = {
   name: string;
   email: string;
   phone: string;
+  position: string;
+  document: string;
+  department: string;
+  departmentUuid: string;
+  dateOfAdmission: Date;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date;
@@ -33,6 +43,10 @@ type ReadListEmployeesDto = {
   email: string;
   phone: string;
   position: string;
+  department: string;
+  departmentUuid: string;
+  dateOfAdmission: Date;
+  document: string;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date;

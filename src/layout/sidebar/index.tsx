@@ -88,6 +88,11 @@ const menuGroups: MenuGroup[] = [
     label: 'Gestão da plataforma',
     items: [
       {
+        name: 'Departamentos',
+        icon: User,
+        url: '/departments',
+      },
+      {
         name: 'Auditoria',
         icon: FileSearch,
         url: '/audits',

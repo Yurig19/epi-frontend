@@ -1,8 +1,26 @@
 type CreatePpeDto = {
   name: string;
   caCode: string;
+  description?: string;
+  status?: string;
+};
+
+type UpdatePpeDto = {
+  name?: string;
+  caCode?: string;
+  description?: string;
+  status?: string;
+};
+
+type ReadPpeDto = {
+  uuid: string;
+  name: string;
+  caCode: string;
   description: string;
   status: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date;
 };
 
 type ReadListPpeDto = {

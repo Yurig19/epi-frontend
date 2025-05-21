@@ -84,7 +84,11 @@ const DataTableWithPagination = <T,>({
                 >
                   {column.render
                     ? column.render(item)
-                    : (item[column.key] as React.ReactNode)}
+                    : item[column.key] !== null &&
+                        item[column.key] !== undefined &&
+                        item[column.key] !== ''
+                      ? (item[column.key] as React.ReactNode)
+                      : '-'}
                 </TableCell>
               ))}
               {actions && (

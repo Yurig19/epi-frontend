@@ -1,29 +1,29 @@
 import type { ApiResponse } from '@/client/api.client';
 import { queryClient } from '@/lib/query-client';
-import { updateEmployee } from '@/services/employee.service';
+import { updateDepartment } from '@/services/departments.service';
 // biome-ignore lint/style/useImportType: <explanation>
 import { UseMutationResult, useMutation } from '@tanstack/react-query';
 
-interface UpdateEmployeeParams {
+interface UpdateDepartmentParams {
   uuid: string;
-  updateEmployeeDto: UpdateEmployeeDto;
+  updateDepartmentDto: UpdateDepartmentDto;
 }
 
-export function useUpdateEmployee(): UseMutationResult<
-  ApiResponse<ReadEmployeesDto>,
+export function useUpdateDepartment(): UseMutationResult<
+  ApiResponse<ReadDepartmentsDto>,
   Error,
-  UpdateEmployeeParams
+  UpdateDepartmentParams
 > {
   return useMutation({
-    mutationFn: ({ uuid, updateEmployeeDto }) =>
-      updateEmployee(uuid, updateEmployeeDto),
+    mutationFn: ({ uuid, updateDepartmentDto }) =>
+      updateDepartment(uuid, updateDepartmentDto),
     onSuccess: (response) => {
       if (response.error) {
         throw new Error(response.error);
       }
 
       if (response.status === 200) {
-        queryClient.invalidateQueries({ queryKey: ['employees'] });
+        queryClient.invalidateQueries({ queryKey: ['departments'] });
       }
     },
     onError: (error) => {

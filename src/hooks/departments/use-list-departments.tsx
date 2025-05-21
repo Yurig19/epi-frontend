@@ -1,43 +1,33 @@
+import { listDepartments } from '@/services/departments.service';
 import { useQuery } from '@tanstack/react-query';
-import { getListPpeForm } from '@/services/ppeForm.service';
 import { toast } from 'sonner';
 
-export function useListPpeForms(
+export function useListDepartments(
   page: number,
-  itemsPerPage: number,
+  itensPerPage: number,
   search: string,
-  status: string,
   startDate?: Date,
   endDate?: Date
 ) {
   return useQuery({
-    queryKey: [
-      'ppeForms',
-      page,
-      status,
-      itemsPerPage,
-      search,
-      startDate,
-      endDate,
-    ],
+    queryKey: ['departments', page, itensPerPage, search, startDate, endDate],
     queryFn: async () => {
-      const response = await getListPpeForm(
+      const response = await listDepartments(
         page,
-        itemsPerPage,
-        search,
-        status === 'all' ? '' : status,
+        itensPerPage,
+        search ?? '',
         startDate,
         endDate
       );
 
       if (!response.data) {
-        toast.error('Erro ao buscar as Fichas de EPI', {
+        console.error('Erro ao buscar os Departamentos:', response.error);
+        toast.error('Erro ao buscar os Departamentos', {
           duration: 3000,
           description: 'Tente novamente mais tarde.',
           richColors: true,
         });
       }
-
       return response.data;
     },
   });

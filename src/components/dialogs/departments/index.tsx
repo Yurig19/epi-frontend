@@ -1,4 +1,3 @@
-import { CreateEmployeeForm } from '@/components/forms/employee/createEmployee';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,85 +10,65 @@ import {
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createEmployeeSchema } from '@/schemas/employee.schema';
 import { useState, useEffect } from 'react';
-import { useCreateEmployee } from '@/hooks/employee/use-create-employee';
-import { useUpdateEmployee } from '@/hooks/employee/use-update-employee';
 import { Eye, Pencil } from 'lucide-react';
-import { useSelectDepartments } from '@/hooks/departments/use-select-departments';
+import { useCreateDepartment } from '@/hooks/departments/use-create-department';
+import { useUpdateDepartment } from '@/hooks/departments/use-update-department';
+import { DepartmentsForm } from '@/components/forms/departments';
+import { createDepartmentSchema } from '@/schemas/departments.schema';
 
-interface EmployeeDialogProps {
-  defaultValues?: ReadListEmployeesDto;
+interface DepartmentDialogProps {
+  defaultValues?: ReadListDepartmentsDto;
   isEdit?: boolean;
   isView?: boolean;
 }
 
 type UpdatePayload = {
   uuid: string;
-  updateEmployeeDto: CreateEmployeeDto;
+  updateDepartmentDto: CreateDepartmentDto;
 };
-export function EmployeeDialog({
+export function DepartmentDialog({
   defaultValues,
   isEdit = false,
   isView = false,
-}: EmployeeDialogProps) {
+}: DepartmentDialogProps) {
   const [openDialog, setOpenDialog] = useState(false);
 
-  const form = useForm<CreateEmployeeDto>({
-    resolver: zodResolver(createEmployeeSchema),
+  const form = useForm<CreateDepartmentDto>({
+    resolver: zodResolver(createDepartmentSchema),
     defaultValues,
   });
 
   useEffect(() => {
     if (isEdit || (isView && defaultValues)) {
-      if (defaultValues?.department) {
-        form.setValue('departmentUuid', defaultValues.departmentUuid);
-      }
       form.reset(defaultValues);
     }
   }, [defaultValues, isEdit, isView, form]);
 
-  const createMutation = useCreateEmployee();
-  const updateMutation = useUpdateEmployee();
-
-  const { data } = useSelectDepartments();
+  const createMutation = useCreateDepartment();
+  const updateMutation = useUpdateDepartment();
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
-  const getErrorMessage = (error: string): string => {
-    switch (error) {
-      case 'Email already exists.':
-        return 'Email já adicionado à plataforma!';
-      case 'Phone already exists.':
-        return 'Telefone já adicionado à plataforma!';
-      case 'Document already exists.':
-        return 'CPF já adicionado à plataforma!';
-      default:
-        return 'Tente novamente mais tarde!';
-    }
-  };
-
-  const onSubmit = (data: CreateEmployeeDto) => {
+  const onSubmit = (data: CreateDepartmentDto) => {
     if (isEdit && defaultValues && defaultValues.uuid) {
       const payload: UpdatePayload = {
         uuid: defaultValues.uuid,
-        updateEmployeeDto: data,
+        updateDepartmentDto: data,
       };
-
-      console.log(payload);
 
       updateMutation.mutate(payload, {
         onSuccess: () => {
-          toast.success('Funcionário atualizado com sucesso!', {
+          toast.success('Departamento atualizado com sucesso!', {
             description: 'Os dados foram atualizados com sucesso.',
             richColors: true,
           });
           setOpenDialog(false);
           form.reset();
         },
-        onError: (error) => {
-          toast.error('Erro ao atualizar funcionário', {
-            description: getErrorMessage(error.message ?? ''),
+        onError: () => {
+          toast.error('Erro ao atualizar o departamento', {
+            description: 'Tente novamente mais tarde!',
             richColors: true,
           });
         },
@@ -97,16 +76,16 @@ export function EmployeeDialog({
     } else {
       createMutation.mutate(data, {
         onSuccess: () => {
-          toast.success('Funcionário criado com sucesso!', {
-            description: 'O funcionário foi criado com sucesso.',
+          toast.success('Departamento criado com sucesso!', {
+            description: 'O Departamento foi criado com sucesso.',
             richColors: true,
           });
           setOpenDialog(false);
           form.reset();
         },
-        onError: (error) => {
-          toast.error('Erro ao criar funcionário', {
-            description: getErrorMessage(error.message ?? ''),
+        onError: () => {
+          toast.error('Erro ao criar Departamento', {
+            description: 'Tente novamente mais tarde!',
             richColors: true,
           });
         },
@@ -127,7 +106,7 @@ export function EmployeeDialog({
               <Pencil className='h-4 w-4' />
             </>
           ) : (
-            <>{'Criar Novo Funcionário'}</>
+            <>{'Criar Novo Departamento'}</>
           )}
         </Button>
       </DialogTrigger>
@@ -135,21 +114,20 @@ export function EmployeeDialog({
         <DialogHeader>
           <DialogTitle>
             {isEdit
-              ? 'Editar Funcionário'
+              ? 'Editar Departamento'
               : isView
-                ? 'Visualizar Dados do Funcionário'
-                : 'Criar Novo Funcionário'}
+                ? 'Visualizar Dados do departamento'
+                : 'Criar Novo Departamento'}
           </DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Atualize os campos desejados do funcionário.'
-              : 'Preencha os campos abaixo para adicionar um novo funcionário.'}
+              ? 'Atualize os campos desejados do departamentos.'
+              : 'Preencha os campos abaixo para adicionar um novo departamentos.'}
           </DialogDescription>
         </DialogHeader>
 
-        <CreateEmployeeForm
+        <DepartmentsForm
           form={form}
-          departmentsListOptions={data ?? []}
           onSubmit={onSubmit}
           isLoading={isPending}
           isView={isView}
