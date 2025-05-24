@@ -1,4 +1,4 @@
-import { CreateEmployeeForm } from '@/components/forms/employee/createEmployee';
+import { EmployeeForm } from '@/components/forms/employee';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -45,6 +45,7 @@ export function EmployeeDialog({
       if (defaultValues?.department) {
         form.setValue('departmentUuid', defaultValues.departmentUuid);
       }
+
       form.reset(defaultValues);
     }
   }, [defaultValues, isEdit, isView, form]);
@@ -147,7 +148,7 @@ export function EmployeeDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <CreateEmployeeForm
+        <EmployeeForm
           form={form}
           departmentsListOptions={data ?? []}
           onSubmit={onSubmit}

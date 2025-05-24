@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { SelectField } from '@/components/fields/select';
 import { DatePickerField } from '@/components/fields/date';
 
-interface CreateEmployeeFormProps {
+interface EmployeeFormProps {
   form: UseFormReturn<CreateEmployeeDto>;
   onSubmit: (data: CreateEmployeeDto) => void;
   departmentsListOptions: SelectDepartmentsDto[];
@@ -13,13 +13,13 @@ interface CreateEmployeeFormProps {
   isView?: boolean;
 }
 
-export function CreateEmployeeForm({
+export function EmployeeForm({
   form,
   onSubmit,
   isLoading,
   isView,
   departmentsListOptions,
-}: CreateEmployeeFormProps) {
+}: EmployeeFormProps) {
   const { control, handleSubmit } = form;
 
   return (
@@ -67,14 +67,14 @@ export function CreateEmployeeForm({
           mask='000.000.000-00'
         />
 
-        {/* <InputField
-          name='dateOfAdmission'
-          label='Data de admissão'
+        <InputField
+          name='birthDate'
+          label='Data de nascimento'
           control={control}
           disabled={isView ? isView : false}
-          placeholder='Selecione a data de admissão'
           type='date'
-        /> */}
+        />
+
         <DatePickerField
           control={control}
           name='dateOfAdmission'

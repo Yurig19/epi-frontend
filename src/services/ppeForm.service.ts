@@ -1,18 +1,24 @@
 import api from '@/client/api';
 
-export function createPpeForm(createPpeFormDto: CreatePpeFormDto) {
-  return api.post<ReadPpeFormDto>('/pPEForms/create', createPpeFormDto);
+export async function createPpeForm(createPpeFormDto: CreatePpeFormDto) {
+  return await api.post<ReadPpeFormDto>('/pPEForms/create', createPpeFormDto);
 }
 
 export function getByUuid(uuid: string) {
   return api.get<ReadPpeFormDto>(`/pPEForms/get-by-uuid?uuid=${uuid}`);
 }
 
-export function updatePpeForm(
+export async function getByUuidPublic(uuid: string) {
+  return await api.get<ReadPpeFormPublicDto>(
+    `/pPEForms/public-get-by-uuid?uuid=${uuid}`
+  );
+}
+
+export async function updatePpeForm(
   uuid: string,
   updatePpeFormDto: UpdatePpeFormDto
 ) {
-  return api.put<ReadPpeFormDto>(
+  return await api.put<ReadPpeFormDto>(
     `/pPEForms/update?uuid=${uuid}`,
     updatePpeFormDto
   );
@@ -31,6 +37,6 @@ export async function getListPpeForm(
   );
 }
 
-export function deletePpeForm(uuid: string) {
-  return api.delete(`/pPEForms/delete?uuid=${uuid}`);
+export async function deletePpeForm(uuid: string) {
+  return await api.delete(`/pPEForms/delete?uuid=${uuid}`);
 }

@@ -5,6 +5,7 @@ type CreateEmployeeDto = {
   document: string;
   position?: string;
   dateOfAdmission?: Date;
+  birthDate?: Date;
   departmentUuid?: string;
 };
 
@@ -14,6 +15,7 @@ type UpdateEmployeeDto = {
   phone?: string;
   position?: string;
   dateOfAdmission?: Date;
+  birthDate?: Date;
   departmentUuid?: string;
 };
 
@@ -30,6 +32,7 @@ type ReadEmployeesDto = {
   position: string;
   document: string;
   department: string;
+  birthDate: Date;
   departmentUuid: string;
   dateOfAdmission: Date;
   createdAt: Date;
@@ -44,6 +47,7 @@ type ReadListEmployeesDto = {
   phone: string;
   position: string;
   department: string;
+  birthDate: Date;
   departmentUuid: string;
   dateOfAdmission: Date;
   document: string;

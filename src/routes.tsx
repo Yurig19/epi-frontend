@@ -20,6 +20,10 @@ const EmployeesManagementsPage = lazy(
   () => import('./pages/employeesManagements')
 );
 
+const PublicPpeFormPage = lazy(
+  () => import('./pages/ppeFormsManagement/public')
+);
+
 const DepartmentsManagementsPage = lazy(
   () => import('./pages/departmentsManagement')
 );
@@ -40,6 +44,13 @@ const authRoutes = [
   {
     path: '/',
     element: <LoginPage />,
+  },
+];
+
+const notAuthSystemRoutes = [
+  {
+    path: '/ppeFormsManagement/public/:uuid',
+    element: <PublicPpeFormPage />,
   },
 ];
 
@@ -68,6 +79,7 @@ const systemRoutes = [
     path: '/ppeFormsManagement/edit/:uuid',
     element: <CreateEditViewPpeFormsPage />,
   },
+
   {
     path: '/ppeFormsManagement/view/:uuid',
     element: <CreateEditViewPpeFormsPage />,
@@ -103,6 +115,9 @@ export function ProjectRoutes() {
   return (
     <Suspense fallback={<SkeletonLoader />}>
       <Routes>
+        {notAuthSystemRoutes.map(({ path, element }) => (
+          <Route key={path} path={path} element={element} />
+        ))}
         {authRoutes.map(({ path, element }) => (
           <Route key={path} path={path} element={element} />
         ))}

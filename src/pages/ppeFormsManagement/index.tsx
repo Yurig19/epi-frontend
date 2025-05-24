@@ -1,4 +1,5 @@
 import AlertDeleteDialog from '@/components/dialogs/alertDelete';
+import { SharePopover } from '@/components/popover/sharePopover';
 import { DateRangePicker } from '@/components/rangePicker';
 import DataTableWithPagination, { type Column } from '@/components/table';
 import { Button } from '@/components/ui/button';
@@ -212,6 +213,7 @@ export default function PpeFormManagementPage() {
             onPageChange={setPage}
             actions={(item) => (
               <div className='flex items-center gap-2'>
+                <SharePopover uuid={item.uuid} />
                 <Button variant='outline' asChild>
                   <Link to={`/ppeFormsManagement/view/${item.uuid}`}>
                     <Eye className='w-4 h-4' />

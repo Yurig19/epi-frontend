@@ -6,6 +6,10 @@ export const createEmployeeSchema: z.ZodType<CreateEmployeeDto> = z.object({
   phone: z.string().min(1, 'Telefone é obrigatório'),
   document: z.string().min(1, 'CPF é obrigatório'),
   position: z.string().optional(),
+  birthDate: z.date({
+    required_error: 'Data de nascimento obrigatória',
+    invalid_type_error: 'Data inválida',
+  }),
   dateOfAdmission: z.coerce
     .date()
     .optional()

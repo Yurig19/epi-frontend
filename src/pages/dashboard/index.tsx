@@ -1,13 +1,8 @@
 import { LayoutBase } from '@/layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts';
-import {
-  getDashboardMetrics,
-  getPpeStatusStats,
-  getLastActivePpes,
-} from '@/services/dashboard.service';
+
 import {
   Table,
   TableBody,
@@ -16,28 +11,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useGetDashboardData } from '@/hooks/dashboard/use-get-data';
+import { formatDate } from '@/utils/format-date';
 
 const COLORS = ['#22c55e', '#ef4444'];
 
 export default function DashboardPage() {
-  const { data: metrics, isLoading: loadingMetrics } = useQuery({
-    queryKey: ['dashboard-metrics'],
-    queryFn: getDashboardMetrics,
-  });
-
-  const { data: ppeStats, isLoading: loadingStats } = useQuery({
-    queryKey: ['ppe-stats'],
-    queryFn: getPpeStatusStats,
-  });
-
-  const { data: lastPpes, isLoading: loadingLastPpes } = useQuery({
-    queryKey: ['last-active-ppes'],
-    queryFn: getLastActivePpes,
-  });
+  const { data, isPending } = useGetDashboardData();
 
   const pieChartData = [
-    { name: 'Ativo', value: ppeStats?.active || 0 },
-    { name: 'Inativo', value: ppeStats?.inactive || 0 },
+    { name: 'Ativo', value: data?.totalPpeFormsActive || 0 },
+    { name: 'Inativo', value: data?.totalPpeFormsInactive || 0 },
   ];
 
   return (
@@ -49,10 +33,10 @@ export default function DashboardPage() {
               <CardTitle>Total de Funcionários</CardTitle>
             </CardHeader>
             <CardContent>
-              {loadingMetrics ? (
+              {isPending ? (
                 <Skeleton className='h-6 w-20' />
               ) : (
-                <p className='text-2xl font-bold'>{metrics?.totalEmployees}</p>
+                <p className='text-2xl font-bold'>{data?.totalEmployee ?? 0}</p>
               )}
             </CardContent>
           </Card>
@@ -61,10 +45,10 @@ export default function DashboardPage() {
               <CardTitle>Total de Fichas de EPI</CardTitle>
             </CardHeader>
             <CardContent>
-              {loadingMetrics ? (
+              {isPending ? (
                 <Skeleton className='h-6 w-20' />
               ) : (
-                <p className='text-2xl font-bold'>{metrics?.totalPpes}</p>
+                <p className='text-2xl font-bold'>{data?.totalPpeForms ?? 0}</p>
               )}
             </CardContent>
           </Card>
@@ -74,10 +58,10 @@ export default function DashboardPage() {
               <CardTitle>Total de Equipamentos</CardTitle>
             </CardHeader>
             <CardContent>
-              {loadingMetrics ? (
+              {isPending ? (
                 <Skeleton className='h-6 w-20' />
               ) : (
-                <p className='text-2xl font-bold'>{metrics?.totalPpes}</p>
+                <p className='text-2xl font-bold'>{data?.totalPpe ?? 0}</p>
               )}
             </CardContent>
           </Card>
@@ -87,10 +71,12 @@ export default function DashboardPage() {
               <CardTitle>EPIs a Vencer</CardTitle>
             </CardHeader>
             <CardContent>
-              {loadingMetrics ? (
+              {isPending ? (
                 <Skeleton className='h-6 w-20' />
               ) : (
-                <p className='text-2xl font-bold'>{metrics?.totalPpes ?? 0}</p>
+                <p className='text-2xl font-bold'>
+                  {data?.totalNotExpiredPpeForms ?? 0}
+                </p>
               )}
             </CardContent>
           </Card>
@@ -101,7 +87,7 @@ export default function DashboardPage() {
             <CardTitle>Status dos EPIs</CardTitle>
           </CardHeader>
           <CardContent>
-            {loadingStats ? (
+            {isPending ? (
               <Skeleton className='h-48 w-full' />
             ) : (
               <div className='w-full h-64'>
@@ -118,7 +104,7 @@ export default function DashboardPage() {
                     >
                       {pieChartData.map((_, index) => (
                         <Cell
-                          key={`cell-${index}`}
+                          key={`cell-${index + 123}`}
                           fill={COLORS[index % COLORS.length]}
                         />
                       ))}
@@ -136,9 +122,9 @@ export default function DashboardPage() {
             <CardTitle>Últimas EPIs Ativas</CardTitle>
           </CardHeader>
           <CardContent>
-            {loadingLastPpes ? (
+            {isPending ? (
               <Skeleton className='h-24 w-full' />
-            ) : lastPpes?.length === 0 ? (
+            ) : data?.lastPpeFormsActive?.length === 0 ? (
               <p className='text-sm text-muted-foreground'>
                 Nenhuma EPI ativa encontrada.
               </p>
@@ -146,21 +132,21 @@ export default function DashboardPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Nome</TableHead>
-                    <TableHead>C.A</TableHead>
+                    <TableHead>Funcionário</TableHead>
+                    <TableHead>Status</TableHead>
                     <TableHead>Criado em</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {lastPpes?.map((ppe: any) => (
-                    <TableRow key={ppe.uuid}>
-                      <TableCell>{ppe.name}</TableCell>
-                      <TableCell>{ppe.caCode}</TableCell>
-                      <TableCell>
-                        {new Date(ppe.createdAt).toLocaleDateString()}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {data?.lastPpeFormsActive?.map(
+                    (ppe: ReadLastPpeFormsActive) => (
+                      <TableRow key={ppe.uuid}>
+                        <TableCell>{ppe.employeeName}</TableCell>
+                        <TableCell>{ppe.status}</TableCell>
+                        <TableCell>{formatDate(ppe.createdAt)}</TableCell>
+                      </TableRow>
+                    )
+                  )}
                 </TableBody>
               </Table>
             )}

@@ -104,7 +104,7 @@ export default function EmployeesManagementsPage() {
           <div className='flex gap-4'>
             <div className='relative w-full'>
               <Input
-                placeholder='Pesquisar ficha pelo funcionário, nome do equipamento'
+                placeholder='Pesquisar funcionário pelo nome'
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className='pl-10 w-96'

@@ -43,6 +43,7 @@ import { createPpeFormSchema } from '@/schemas/ppeForm.schema';
 import { useGetByUuidPpeForm } from '@/hooks/ppeForm/use-get-by-uuid-ppeForm';
 import { toast } from 'sonner';
 import { useCreatePpeForm } from '@/hooks/ppeForm/use-create-ppeForm';
+import { useUpdatePpeForm } from '@/hooks/ppeForm/use-update-ppeForm';
 
 export default function CreateEditViewPpeFormsPage() {
   const form = useForm<CreatePpeFormDto>({
@@ -82,6 +83,7 @@ export default function CreateEditViewPpeFormsPage() {
   const { data, error, isError } = useGetByUuidPpeForm(uuid as string);
 
   const { mutate: createPpeForm } = useCreatePpeForm();
+  const { mutate: updatePpeForm } = useUpdatePpeForm();
 
   const [selectedPpe, setSelectedPpe] = useState('');
   const [quantity, setQuantity] = useState<number>(1);
@@ -119,6 +121,11 @@ export default function CreateEditViewPpeFormsPage() {
   };
 
   const onSubmit = (data: CreatePpeFormDto) => {
+    if (isEdit) {
+      updatePpeForm({ uuid: uuid as string, updatePpeFormDto: data });
+      navigate('/ppeFormsManagements');
+      return;
+    }
     createPpeForm(data);
     navigate('/ppeFormsManagements');
   };

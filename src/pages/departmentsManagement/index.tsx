@@ -94,7 +94,6 @@ export default function DepartmentsManagementPage() {
       render: (item) => {
         const isActive = item.status === DepartmentsStatusEnum.ACTIVE;
 
-        console.log();
         return (
           <div className='flex items-center gap-2'>
             <span
@@ -130,7 +129,7 @@ export default function DepartmentsManagementPage() {
           <div className='flex gap-4'>
             <div className='relative w-full'>
               <Input
-                placeholder='Pesquisar ficha pelo nome do departamento'
+                placeholder='Pesquisar pelo nome do departamento'
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className='pl-10 w-96'

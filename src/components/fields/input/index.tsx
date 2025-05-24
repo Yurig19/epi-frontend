@@ -38,6 +38,9 @@ export function InputField<T extends FieldValues>({
   type,
   mask,
 }: InputFieldProps<T>) {
+  const isValidDate = (val: unknown): val is Date =>
+    val instanceof Date && !Number.isNaN(val.getTime());
+
   return (
     <FormField
       control={control}
@@ -68,6 +71,16 @@ export function InputField<T extends FieldValues>({
                 placeholder={placeholder}
                 disabled={disabled}
                 type={type ?? 'text'}
+                value={
+                  type === 'date' && isValidDate(field.value)
+                    ? field.value.toISOString().split('T')[0]
+                    : (field.value ?? '')
+                }
+                onChange={(e) => {
+                  const value = e.target.value;
+                  console.log(value);
+                  field.onChange(type === 'date' ? new Date(value) : value);
+                }}
               />
             )}
           </FormControl>
