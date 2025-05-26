@@ -241,28 +241,26 @@ export default function CreateEditViewPpeFormsPage() {
           </div>
 
           {!isView && (
-            <div className='border-t pt-8 space-y-8'>
-              <h3 className='text-lg font-medium'>Adicionar Equipamento</h3>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-6 items-end'>
+              <div>
+                <FormLabel className='mb-3'>EPI</FormLabel>
+                <Select value={selectedPpe} onValueChange={setSelectedPpe}>
+                  <SelectTrigger>
+                    <SelectValue placeholder='Selecione um EPI' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {ppeList?.map((ppe) => (
+                      <SelectItem key={ppe.uuid} value={ppe.uuid}>
+                        {ppe.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-              <div className='grid grid-cols-1 md:grid-cols-3 gap-6 items-end'>
-                <div>
-                  <FormLabel className='mb-3'>EPI</FormLabel>
-                  <Select value={selectedPpe} onValueChange={setSelectedPpe}>
-                    <SelectTrigger>
-                      <SelectValue placeholder='Selecione um EPI' />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {ppeList?.map((ppe) => (
-                        <SelectItem key={ppe.uuid} value={ppe.uuid}>
-                          {ppe.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className='space-y-3'>
-                  <FormLabel>Quantidade</FormLabel>
+              <div className='flex gap-4 items-end'>
+                <div className='w-24'>
+                  <FormLabel className='mb-3'>Quantidade</FormLabel>
                   <Input
                     type='number'
                     min={1}
@@ -271,7 +269,7 @@ export default function CreateEditViewPpeFormsPage() {
                   />
                 </div>
 
-                <Button type='button' onClick={onAddPpe}>
+                <Button type='button' onClick={onAddPpe} className='self-end'>
                   Adicionar
                 </Button>
               </div>

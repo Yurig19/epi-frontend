@@ -59,15 +59,6 @@ export default function PpeManagementsPage() {
 
   const { mutate: deletePpe } = useDeletePpe();
 
-  function handleDelete(uuid: string) {
-    deletePpe(uuid);
-    toast.success('EPI deletado com sucesso!', {
-      duration: 3000,
-      description: 'EPI deletado com sucesso!',
-      richColors: true,
-    });
-  }
-
   useEffect(() => {
     const params: Record<string, string> = {};
 
@@ -152,7 +143,7 @@ export default function PpeManagementsPage() {
               </div>
             </div>
           </div>
-          <div className='flex gap-4'>
+          {/* <div className='flex gap-4'>
             <DateRangePicker
               startDate={startDate}
               setStartDate={setStartDate}
@@ -175,7 +166,7 @@ export default function PpeManagementsPage() {
                 </SelectItem>
               </SelectContent>
             </Select>
-          </div>
+          </div> */}
         </div>
 
         {isPending ? (
@@ -211,7 +202,7 @@ export default function PpeManagementsPage() {
                 <PpeDialog isView defaultValues={item} />
                 <PpeDialog isEdit defaultValues={item} />
                 <AlertDeleteDialog
-                  handleDelete={handleDelete}
+                  handleDelete={deletePpe}
                   element='EPI'
                   elementUuid={item.uuid}
                 />

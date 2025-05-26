@@ -77,8 +77,6 @@ export function EmployeeDialog({
         updateEmployeeDto: data,
       };
 
-      console.log(payload);
-
       updateMutation.mutate(payload, {
         onSuccess: () => {
           toast.success('Funcionário atualizado com sucesso!', {

@@ -5,8 +5,8 @@ import { toast } from 'sonner';
 export function useListPpeForms(
   page: number,
   itemsPerPage: number,
-  search: string,
-  status: string,
+  search?: string,
+  status?: string,
   startDate?: Date,
   endDate?: Date
 ) {
@@ -21,6 +21,7 @@ export function useListPpeForms(
       endDate,
     ],
     queryFn: async () => {
+      console.log('Fetching PPE forms list');
       const response = await getListPpeForm(
         page,
         itemsPerPage,

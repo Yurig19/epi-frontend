@@ -72,13 +72,17 @@ export function InputField<T extends FieldValues>({
                 disabled={disabled}
                 type={type ?? 'text'}
                 value={
-                  type === 'date' && isValidDate(field.value)
-                    ? field.value.toISOString().split('T')[0]
+                  type === 'date'
+                    ? (() => {
+                        const date = new Date(field.value);
+                        return isValidDate(date)
+                          ? date.toISOString().split('T')[0]
+                          : '';
+                      })()
                     : (field.value ?? '')
                 }
                 onChange={(e) => {
                   const value = e.target.value;
-                  console.log(value);
                   field.onChange(type === 'date' ? new Date(value) : value);
                 }}
               />

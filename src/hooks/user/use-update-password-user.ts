@@ -1,28 +1,27 @@
 import type { ApiResponse } from '@/client/api.client';
 import { queryClient } from '@/lib/query-client';
-import { updatePpeForm } from '@/services/ppeForm.service';
+import { updatePassword } from '@/services/user.service';
 import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-export function useUpdatePpeForm(): UseMutationResult<
-  ApiResponse<ReadPpeFormDto>,
+export function useUpdatePasswordUser(): UseMutationResult<
+  ApiResponse<ReadUpdatePasswordDto>,
   Error,
-  { uuid: string; updatePpeFormDto: UpdatePpeFormDto }
+  UpdatePasswordDto
 > {
   return useMutation({
-    mutationFn: ({ uuid, updatePpeFormDto }) =>
-      updatePpeForm(uuid, updatePpeFormDto),
+    mutationFn: updatePassword,
     onSuccess: (response) => {
       if (response.error) {
-        toast.error('Erro ao atualizar a ficha de EPI', {
+        toast.error('Erro ao atualizar a senha do usuário', {
           richColors: true,
         });
         throw new Error(response.error);
       }
 
       if (response.data) {
-        queryClient.invalidateQueries({ queryKey: ['ppeForms'] });
-        toast.success('Ficha de EPI atualizada com sucesso', {
+        queryClient.invalidateQueries({ queryKey: ['users'] });
+        toast.success('A senha do usuário atualizada com sucesso', {
           richColors: true,
         });
       }

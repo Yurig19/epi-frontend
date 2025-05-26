@@ -6,11 +6,34 @@ import { toast } from 'sonner';
 export function useDeletePpeForms() {
   return useMutation({
     mutationFn: deletePpeForm,
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
+      console.log(response);
       if (response.error) {
-        throw new Error(response.error);
+        toast.error('Erro', {
+          description: 'Erro ao excluir a ficha de EPI',
+          richColors: true,
+        });
       }
-      queryClient.invalidateQueries({ queryKey: ['ppeForms'] });
+      if (response.data) {
+        if (response.data.success) {
+          await queryClient.refetchQueries({
+            queryKey: ['ppeForms'],
+            exact: false,
+          });
+          toast.success('Sucesso', {
+            richColors: true,
+            description: 'Ficha de EPI excluída com sucesso!',
+          });
+        } else {
+          toast.error('Erro!', {
+            richColors: true,
+            description: 'Erro ao excluir a ficha de EPI',
+          });
+          throw new Error(
+            response.data.message || 'Erro ao excluir a ficha de EPI'
+          );
+        }
+      }
     },
     onError: (error) => {
       console.error(error);

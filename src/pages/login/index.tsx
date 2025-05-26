@@ -41,11 +41,7 @@ export default function LoginPage() {
 
   return (
     <div className='min-h-screen flex'>
-      <div className='w-1/2 bg-foreground text-muted-foreground relative p-8'>
-        <Button variant='ghost' asChild className='absolute top-8 left-8'>
-          <Link to='/sign-up'>Novo estabelecimento</Link>
-        </Button>
-      </div>
+      <div className='w-1/2 bg-foreground text-muted-foreground relative p-8' />
 
       <div className='w-1/2 flex items-end justify-center p-12'>
         <div className='w-[350px] flex flex-col justify-end gap-6'>
@@ -54,7 +50,7 @@ export default function LoginPage() {
               Acessar painel
             </h1>
             <p className='text-sm text-muted-foreground'>
-              Acompanhe suas vendas pelo painel parceiro
+              Faça o login com suas credenciais para acessar o painel.{' '}
             </p>
           </div>
 

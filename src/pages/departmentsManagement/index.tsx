@@ -1,15 +1,7 @@
 import AlertDeleteDialog from '@/components/dialogs/alertDelete';
 import { DepartmentDialog } from '@/components/dialogs/departments';
-import { DateRangePicker } from '@/components/rangePicker';
 import DataTableWithPagination, { type Column } from '@/components/table';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { DepartmentsStatusEnum } from '@/enums/departments.enum';
 import { useDeleteDepartments } from '@/hooks/departments/use-delete-department';
@@ -139,7 +131,7 @@ export default function DepartmentsManagementPage() {
               </div>
             </div>
           </div>
-          <div className='flex gap-4'>
+          {/* <div className='flex gap-4'>
             <DateRangePicker
               startDate={startDate}
               setStartDate={setStartDate}
@@ -162,7 +154,7 @@ export default function DepartmentsManagementPage() {
                 </SelectItem>
               </SelectContent>
             </Select>
-          </div>
+          </div> */}
         </div>
 
         {isPending ? (

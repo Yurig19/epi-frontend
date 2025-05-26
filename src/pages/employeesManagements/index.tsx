@@ -1,6 +1,5 @@
 import AlertDeleteDialog from '@/components/dialogs/alertDelete';
 import { EmployeeDialog } from '@/components/dialogs/employees/employee';
-import { DateRangePicker } from '@/components/rangePicker';
 import DataTableWithPagination, { type Column } from '@/components/table';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -46,10 +45,6 @@ export default function EmployeesManagementsPage() {
 
   const { mutate: deleteEmployee } = useDeleteEmployee();
 
-  async function handleDeleteEmployee(uuid: string) {
-    deleteEmployee(uuid);
-  }
-
   const columns: Column<ReadListEmployeesDto>[] = [
     { key: 'name', label: 'Nome' },
     { key: 'email', label: 'Email' },
@@ -62,9 +57,9 @@ export default function EmployeesManagementsPage() {
       render: (item) => formatDate(item.dateOfAdmission),
     },
     {
-      key: 'createdAt',
-      label: 'Criado em',
-      render: (item) => formatDate(item.createdAt),
+      key: 'birthDate',
+      label: 'Data de Nascimento',
+      render: (item) => formatDate(item.birthDate),
     },
   ];
 
@@ -114,14 +109,14 @@ export default function EmployeesManagementsPage() {
               </div>
             </div>
           </div>
-          <div className='flex gap-4'>
+          {/* <div className='flex gap-4'>
             <DateRangePicker
               startDate={startDate}
               setStartDate={setStartDate}
               endDate={endDate}
               setEndDate={setEndDate}
             />
-          </div>
+          </div> */}
         </div>
 
         {isPending ? (
@@ -159,7 +154,7 @@ export default function EmployeesManagementsPage() {
                 <AlertDeleteDialog
                   element='Funcionário'
                   elementUuid={item.uuid}
-                  handleDelete={handleDeleteEmployee}
+                  handleDelete={deleteEmployee}
                 />
               </div>
             )}

@@ -8,22 +8,18 @@ export type ApiResponse<T> = {
 
 class ApiClient {
   private baseUrl: string;
-  private token: string | null = null;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
-    this.token = this.getTokenFromCookies();
-  }
-
-  private getTokenFromCookies(): string | null {
-    const cookies = parseCookies();
-    return cookies.token || null;
   }
 
   private getHeaders(isFormData: boolean): HeadersInit {
+    const cookies = parseCookies();
+    const token = cookies.token;
+
     const headers: HeadersInit = {};
-    if (this.token) {
-      headers.Authorization = `Bearer ${this.token}`;
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
     }
     if (!isFormData) {
       headers['Content-Type'] = 'application/json';
@@ -79,6 +75,7 @@ class ApiClient {
       };
     }
   }
+
   get<T>(endpoint: string): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, 'GET');
   }

@@ -19,9 +19,10 @@ export function useCreatePpeForm(): UseMutationResult<
         throw new Error(response.error);
       }
 
-      if (response.status === 201) {
+      if (response.data) {
         queryClient.invalidateQueries({ queryKey: ['ppeForms'] });
-        toast.success('Ficha de EPI cadastrada com sucesso', {
+        toast.success('Sucesso!', {
+          description: 'Ficha de EPI cadastrada com sucesso!',
           richColors: true,
         });
       }

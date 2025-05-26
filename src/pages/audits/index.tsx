@@ -1,4 +1,3 @@
-import { DateRangePicker } from '@/components/rangePicker';
 import DataTableWithPagination, { type Column } from '@/components/table';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -93,14 +92,14 @@ export default function AuditsPage() {
               </div>
             </div>
           </div>
-          <div className='flex gap-4'>
+          {/* <div className='flex gap-4'>
             <DateRangePicker
               startDate={startDate}
               setStartDate={setStartDate}
               endDate={endDate}
               setEndDate={setEndDate}
             />
-          </div>
+          </div> */}
         </div>
 
         {isPending ? (

@@ -38,5 +38,5 @@ export async function getListPpeForm(
 }
 
 export async function deletePpeForm(uuid: string) {
-  return await api.delete(`/pPEForms/delete?uuid=${uuid}`);
+  return await api.delete<DeleteDto>(`/pPEForms/delete?uuid=${uuid}`);
 }

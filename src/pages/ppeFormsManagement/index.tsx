@@ -1,16 +1,8 @@
 import AlertDeleteDialog from '@/components/dialogs/alertDelete';
 import { SharePopover } from '@/components/popover/sharePopover';
-import { DateRangePicker } from '@/components/rangePicker';
 import DataTableWithPagination, { type Column } from '@/components/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useDeletePpeForms } from '@/hooks/ppeForm/use-delete-ppeForm';
 import { useListPpeForms } from '@/hooks/ppeForm/use-list-ppeForm';
@@ -58,10 +50,6 @@ export default function PpeFormManagementPage() {
   );
 
   const { mutate: deletePpeForms } = useDeletePpeForms();
-
-  function handleDeletePpeForms(uuid: string) {
-    deletePpeForms(uuid);
-  }
 
   useEffect(() => {
     const params: Record<string, string> = {};
@@ -157,7 +145,7 @@ export default function PpeFormManagementPage() {
               </div>
             </div>
           </div>
-          <div className='flex gap-4'>
+          {/* <div className='flex gap-4'>
             <DateRangePicker
               startDate={startDate}
               setStartDate={setStartDate}
@@ -180,7 +168,7 @@ export default function PpeFormManagementPage() {
                 </SelectItem>
               </SelectContent>
             </Select>
-          </div>
+          </div> */}
         </div>
 
         {isPending ? (
@@ -227,7 +215,7 @@ export default function PpeFormManagementPage() {
                 <AlertDeleteDialog
                   element='Ficha de EPI'
                   elementUuid={item.uuid}
-                  handleDelete={handleDeletePpeForms}
+                  handleDelete={deletePpeForms}
                 />
               </div>
             )}

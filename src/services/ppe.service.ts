@@ -26,5 +26,5 @@ export async function getListPpe(
 }
 
 export async function deletePpe(uuid: string) {
-  return await api.delete<ReadPpeDto>(`/ppe/delete/?uuid=${uuid}`);
+  return await api.delete<DeleteDto>(`/ppe/delete/?uuid=${uuid}`);
 }

@@ -1,13 +1,12 @@
 import { ModeToggle } from '@/components/theme/mode-toogle';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Bell, Search } from 'lucide-react';
+import { Bell } from 'lucide-react';
 
 const Header = () => {
   return (
     <header className='bg-background text-card-foreground  h-16 flex justify-between items-center px-10 py-10 w-full'>
       <div className='flex items-center gap-4 w-full'>
-        <div className='relative flex-1 max-w-[600px]'>
+        {/* <div className='relative flex-1 max-w-[600px]'>
           <Input
             type='text'
             placeholder='Pesquisar...'
@@ -20,7 +19,7 @@ const Header = () => {
           >
             <Search />
           </Button>
-        </div>
+        </div> */}
       </div>
 
       <div className='flex items-center gap-4 space-x-4'>

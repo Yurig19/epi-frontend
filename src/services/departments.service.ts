@@ -18,7 +18,7 @@ export function updateDepartment(
 }
 
 export function deleteDepartment(uuid: string) {
-  return api.delete<boolean>(`/departments/delete?uuid=${uuid}`);
+  return api.delete<DeleteDto>(`/departments/delete?uuid=${uuid}`);
 }
 
 export function getDepartmentByUuid(uuid: string) {

@@ -31,5 +31,5 @@ export function updateEmployee(
 }
 
 export function deleteEmployee(uuid: string) {
-  return api.delete(`/employees/delete?uuid=${uuid}`);
+  return api.delete<DeleteDto>(`/employees/delete?uuid=${uuid}`);
 }
