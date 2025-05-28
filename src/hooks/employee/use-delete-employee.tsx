@@ -20,6 +20,7 @@ export function useDeleteEmployee() {
             richColors: true,
           });
           queryClient.invalidateQueries({ queryKey: ['employees'] });
+          queryClient.invalidateQueries({ queryKey: ['selectEmployees'] });
         } else {
           toast.error('Erro ao excluir funcionário', {
             richColors: true,

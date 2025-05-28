@@ -17,6 +17,7 @@ export function useCreatePpe(): UseMutationResult<
 
       if (response.status === 201) {
         queryClient.invalidateQueries({ queryKey: ['ppe'] });
+        queryClient.invalidateQueries({ queryKey: ['selectPpe'] });
       }
     },
     onError: (error) => {

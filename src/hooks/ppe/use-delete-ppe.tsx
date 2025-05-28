@@ -20,6 +20,7 @@ export function useDeletePpe() {
             richColors: true,
           });
           queryClient.invalidateQueries({ queryKey: ['ppe'] });
+          queryClient.invalidateQueries({ queryKey: ['selectPpe'] });
         } else {
           toast.error('Erro', {
             description: 'Erro ao excluir EPI',

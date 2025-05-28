@@ -20,6 +20,7 @@ export function useDeleteDepartments() {
             richColors: true,
           });
           queryClient.invalidateQueries({ queryKey: ['departments'] });
+          queryClient.invalidateQueries({ queryKey: ['selectDepartments'] });
         } else {
           toast.error('Erro', {
             description: 'Erro ao excluir o departamento',

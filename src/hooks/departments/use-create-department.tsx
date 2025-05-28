@@ -17,6 +17,7 @@ export function useCreateDepartment(): UseMutationResult<
 
       if (response.status === 201) {
         queryClient.invalidateQueries({ queryKey: ['departments'] });
+        queryClient.invalidateQueries({ queryKey: ['selectDepartments'] });
       }
     },
     onError: (error) => {

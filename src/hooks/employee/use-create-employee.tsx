@@ -15,8 +15,9 @@ export function useCreateEmployee(): UseMutationResult<
         throw new Error(response.error);
       }
 
-      if (response.status === 201) {
+      if (response.data) {
         queryClient.invalidateQueries({ queryKey: ['employees'] });
+        queryClient.invalidateQueries({ queryKey: ['selectEmployees'] });
       }
     },
     onError: (error) => {

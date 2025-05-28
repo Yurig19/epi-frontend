@@ -20,8 +20,9 @@ export function useUpdatePpe(): UseMutationResult<
         throw new Error(response.error);
       }
 
-      if (response.status === 200) {
+      if (response.data) {
         queryClient.invalidateQueries({ queryKey: ['ppe'] });
+        queryClient.invalidateQueries({ queryKey: ['selectPpe'] });
       }
     },
     onError: (error) => {
