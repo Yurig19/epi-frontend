@@ -7,7 +7,6 @@ export function useDeletePpeForms() {
   return useMutation({
     mutationFn: deletePpeForm,
     onSuccess: async (response) => {
-      console.log(response);
       if (response.error) {
         toast.error('Erro', {
           description: 'Erro ao excluir a ficha de EPI',

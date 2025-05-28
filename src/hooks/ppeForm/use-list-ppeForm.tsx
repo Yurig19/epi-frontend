@@ -21,7 +21,6 @@ export function useListPpeForms(
       endDate,
     ],
     queryFn: async () => {
-      console.log('Fetching PPE forms list');
       const response = await getListPpeForm(
         page,
         itemsPerPage,
