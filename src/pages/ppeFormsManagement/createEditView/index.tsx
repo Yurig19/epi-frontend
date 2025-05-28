@@ -124,7 +124,6 @@ export default function CreateEditViewPpeFormsPage() {
     if (isEdit) {
       updatePpeForm({ uuid: uuid as string, updatePpeFormDto: data });
       navigate('/ppeFormsManagements');
-      return;
     }
     createPpeForm(data);
     navigate('/ppeFormsManagements');
@@ -189,11 +188,13 @@ export default function CreateEditViewPpeFormsPage() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {employeeList?.map((emp) => (
-                        <SelectItem key={emp.uuid} value={emp.uuid}>
-                          {emp.name}
-                        </SelectItem>
-                      ))}
+                      {employeeList &&
+                        Array.isArray(employeeList) &&
+                        employeeList.map((emp) => (
+                          <SelectItem key={emp.uuid} value={emp.uuid}>
+                            {emp.name}
+                          </SelectItem>
+                        ))}
                     </SelectContent>
                   </Select>
                   <FormMessage />

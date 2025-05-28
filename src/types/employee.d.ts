@@ -1,8 +1,8 @@
 type CreateEmployeeDto = {
   name: string;
   email: string;
-  phone: string;
-  document: string;
+  phone?: string;
+  document?: string;
   position?: string;
   dateOfAdmission?: Date;
   birthDate?: Date;

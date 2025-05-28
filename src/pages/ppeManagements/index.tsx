@@ -1,16 +1,8 @@
 import AlertDeleteDialog from '@/components/dialogs/alertDelete';
 import { PpeDialog } from '@/components/dialogs/ppe/create-ppe';
-import { DateRangePicker } from '@/components/rangePicker';
 import type { Column } from '@/components/table';
 import DataTableWithPagination from '@/components/table';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useDeletePpe } from '@/hooks/ppe/use-delete-ppe';
 import { useListPpe } from '@/hooks/ppe/use-list-ppe';

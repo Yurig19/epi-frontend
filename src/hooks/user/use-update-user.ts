@@ -21,7 +21,8 @@ export function useUpdateUser(): UseMutationResult<
 
       if (response.data) {
         queryClient.invalidateQueries({ queryKey: ['users'] });
-        toast.success('usuário atualizada com sucesso', {
+        toast.success('Sucesso!', {
+          description: 'Usuário atualizado com sucesso!',
           richColors: true,
         });
       }

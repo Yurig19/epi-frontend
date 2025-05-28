@@ -24,11 +24,11 @@ interface AlertDeleteDialogProps {
   elementUuid: string;
 }
 
-const AlertDeleteDialog = ({
+export function AlertDeleteDialog({
   element,
   handleDelete,
   elementUuid,
-}: AlertDeleteDialogProps) => {
+}: AlertDeleteDialogProps) {
   const [openAlertDeleteDialog, setOpenAlertDeleteDialog] =
     useState<boolean>(false);
 
@@ -73,6 +73,6 @@ const AlertDeleteDialog = ({
       </AlertDialogContent>
     </AlertDialog>
   );
-};
+}
 
 export default AlertDeleteDialog;

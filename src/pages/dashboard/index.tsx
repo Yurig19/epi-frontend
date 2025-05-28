@@ -2,7 +2,6 @@ import { LayoutBase } from '@/layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts';
-
 import {
   Table,
   TableBody,

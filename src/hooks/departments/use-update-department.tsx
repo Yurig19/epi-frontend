@@ -28,7 +28,6 @@ export function useUpdateDepartment(): UseMutationResult<
       }
     },
     onError: (error) => {
-      console.log(error);
       console.error('Erro ao atualizar funcionário:', error.message);
     },
   });

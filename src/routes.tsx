@@ -13,15 +13,14 @@ const PpeFormsManagementPage = lazy(() => import('./pages/ppeFormsManagement'));
 const CreateEditViewPpeFormsPage = lazy(
   () => import('./pages/ppeFormsManagement/createEditView')
 );
+const PublicPpeFormPage = lazy(
+  () => import('./pages/ppeFormsManagement/public')
+);
 
-const PpeManagementsPage = lazy(() => import('./pages/ppeManagements'));
+ const PpeManagementsPage = lazy(() => import('./pages/ppeManagements'));
 
 const EmployeesManagementsPage = lazy(
   () => import('./pages/employeesManagements')
-);
-
-const PublicPpeFormPage = lazy(
-  () => import('./pages/ppeFormsManagement/public')
 );
 
 const DepartmentsManagementsPage = lazy(

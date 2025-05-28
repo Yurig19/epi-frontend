@@ -1,8 +1,7 @@
 import type { ApiResponse } from '@/client/api.client';
 import { queryClient } from '@/lib/query-client';
 import { updateEmployee } from '@/services/employee.service';
-// biome-ignore lint/style/useImportType: <explanation>
-import { UseMutationResult, useMutation } from '@tanstack/react-query';
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
 
 interface UpdateEmployeeParams {
   uuid: string;

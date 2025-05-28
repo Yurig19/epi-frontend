@@ -1,6 +1,6 @@
 type CreateDepartmentDto = {
   name: string;
-  status: DepartmentsStatusEnum;
+  status?: DepartmentsStatusEnum;
 };
 
 type ReadDepartmentsDto = {

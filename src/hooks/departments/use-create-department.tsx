@@ -15,13 +15,12 @@ export function useCreateDepartment(): UseMutationResult<
         throw new Error(response.error);
       }
 
-      if (response.status === 201) {
+      if (response.data) {
         queryClient.invalidateQueries({ queryKey: ['departments'] });
         queryClient.invalidateQueries({ queryKey: ['selectDepartments'] });
       }
     },
     onError: (error) => {
-      console.log(error);
       console.error('Erro ao criar Departamentos:', error.message);
     },
   });

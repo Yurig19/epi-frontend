@@ -21,7 +21,8 @@ export function useUpdatePasswordUser(): UseMutationResult<
 
       if (response.data) {
         queryClient.invalidateQueries({ queryKey: ['users'] });
-        toast.success('A senha do usuário atualizada com sucesso', {
+        toast.success('Sucesso!', {
+          description: 'A senha do usuário atualizada com sucesso!',
           richColors: true,
         });
       }

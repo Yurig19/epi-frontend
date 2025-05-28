@@ -74,13 +74,14 @@ export default function PublicPpeFormPage() {
         richColors: true,
       });
     } else {
-      toast.error('CPF ou data de nascimento incorretos.', {
+      toast.error('Erro!', {
+        description: 'CPF ou data de nascimento incorretos.',
         richColors: true,
       });
     }
   };
 
-  const onBiometricSign = async () => {
+  async function onBiometricSign() {
     try {
       const publicKey: PublicKeyCredentialRequestOptions = {
         challenge: new Uint8Array(32),
@@ -102,7 +103,7 @@ export default function PublicPpeFormPage() {
       console.error(err);
       toast.error('Erro ao autenticar com biometria.');
     }
-  };
+  }
 
   if (isError) return <p className='text-red-500'>Erro ao carregar ficha.</p>;
   if (!data) return <p>Carregando...</p>;
