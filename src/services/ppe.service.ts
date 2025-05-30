@@ -21,7 +21,7 @@ export async function getListPpe(
   endDate?: Date | undefined
 ) {
   return await api.get<ListPpeDto>(
-    `/ppe/list?page=${page}&dataPerPage=${dataPerPage}&search=${search}&status=${status}&startDate=${startDate}&endDate=${endDate}`
+    `/ppe/list?page=${page}&dataPerPage=${dataPerPage}&search=${search}&status=${status ?? ''}&startDate=${startDate}&endDate=${endDate}`
   );
 }
 

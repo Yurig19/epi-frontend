@@ -33,7 +33,7 @@ export async function getListPpeForm(
   endDate?: Date | undefined
 ) {
   return await api.get<ListPpeFormDto>(
-    `/pPEForms/list?page=${page}&dataPerPage=${dataPerPage}&search=${search}&status=${status}&startDate=${startDate}&endDate=${endDate}`
+    `/pPEForms/list?page=${page}&dataPerPage=${dataPerPage}&search=${search}&status=${status ?? ''}&startDate=${startDate}&endDate=${endDate}`
   );
 }
 
