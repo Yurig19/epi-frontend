@@ -1,5 +1,5 @@
 
-FROM node:18 AS builder
+FROM node:22
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
@@ -13,7 +13,7 @@ COPY . .
 
 RUN pnpm run build
 
-FROM node:18 AS runner
+FROM node:22
 
 RUN npm install -g serve
 
