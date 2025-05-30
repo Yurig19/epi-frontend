@@ -26,33 +26,13 @@ export default function DepartmentsManagementPage() {
     searchParams.get('search') || ''
   );
 
-  const [status, setStatus] = useState<string>(
-    searchParams.get('status') || ''
-  );
-
-  const [startDate, setStartDate] = useState<Date | undefined>(() => {
-    const startDateParam = searchParams.get('startDate');
-    return startDateParam ? new Date(startDateParam) : undefined;
-  });
-
-  const [endDate, setEndDate] = useState<Date | undefined>(() => {
-    const endDateParam = searchParams.get('endDate');
-    return endDateParam ? new Date(endDateParam) : undefined;
-  });
-
   const { data, isError, isPending, error } = useListDepartments(
     page,
     itensPerPage,
-    search,
-    startDate,
-    endDate
+    search
   );
 
   const { mutate: deleteDepartments } = useDeleteDepartments();
-
-  function handleDeleteDepartments(uuid: string) {
-    deleteDepartments(uuid);
-  }
 
   useEffect(() => {
     const params: Record<string, string> = {};
@@ -60,12 +40,9 @@ export default function DepartmentsManagementPage() {
     if (search) params.search = search;
     if (itensPerPage) params.itensPerPage = String(itensPerPage);
     if (page) params.page = String(page);
-    if (status) params.status = status;
-    if (startDate) params.startDate = startDate.toISOString();
-    if (endDate) params.endDate = endDate.toISOString();
 
     setSearchParams(params, { replace: true });
-  }, [search, itensPerPage, page, status, startDate, endDate, setSearchParams]);
+  }, [search, itensPerPage, page, setSearchParams]);
 
   useEffect(() => {
     if (isError && error) {
@@ -192,7 +169,7 @@ export default function DepartmentsManagementPage() {
                 <AlertDeleteDialog
                   element='Departamento'
                   elementUuid={item.uuid}
-                  handleDelete={handleDeleteDepartments}
+                  handleDelete={deleteDepartments}
                 />
               </div>
             )}

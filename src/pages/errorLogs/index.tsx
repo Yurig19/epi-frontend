@@ -1,4 +1,3 @@
-import { DateRangePicker } from '@/components/rangePicker';
 import DataTableWithPagination, { type Column } from '@/components/table';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -23,22 +22,10 @@ export default function ErrorLogsPage() {
     searchParams.get('search') || ''
   );
 
-  const [startDate, setStartDate] = useState<Date | undefined>(() => {
-    const startDateParam = searchParams.get('startDate');
-    return startDateParam ? new Date(startDateParam) : undefined;
-  });
-
-  const [endDate, setEndDate] = useState<Date | undefined>(() => {
-    const endDateParam = searchParams.get('endDate');
-    return endDateParam ? new Date(endDateParam) : undefined;
-  });
-
   const { data, error, isError, isPending } = useListErrorsLogs(
     page,
     itensPerPage,
-    search,
-    startDate,
-    endDate
+    search
   );
 
   useEffect(() => {
@@ -47,11 +34,9 @@ export default function ErrorLogsPage() {
     if (search) params.search = search;
     if (itensPerPage) params.itensPerPage = String(itensPerPage);
     if (page) params.page = String(page);
-    if (startDate) params.startDate = startDate.toISOString();
-    if (endDate) params.endDate = endDate.toISOString();
 
     setSearchParams(params, { replace: true });
-  }, [search, itensPerPage, page, startDate, endDate, setSearchParams]);
+  }, [search, itensPerPage, page, setSearchParams]);
 
   useEffect(() => {
     if (isError && error) {
@@ -92,14 +77,6 @@ export default function ErrorLogsPage() {
                 <Search size={18} />
               </div>
             </div>
-          </div>
-          <div className='flex gap-4'>
-            <DateRangePicker
-              startDate={startDate}
-              setStartDate={setStartDate}
-              endDate={endDate}
-              setEndDate={setEndDate}
-            />
           </div>
         </div>
 

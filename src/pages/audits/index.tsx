@@ -22,22 +22,10 @@ export default function AuditsPage() {
     searchParams.get('search') || ''
   );
 
-  const [startDate, setStartDate] = useState<Date | undefined>(() => {
-    const startDateParam = searchParams.get('startDate');
-    return startDateParam ? new Date(startDateParam) : undefined;
-  });
-
-  const [endDate, setEndDate] = useState<Date | undefined>(() => {
-    const endDateParam = searchParams.get('endDate');
-    return endDateParam ? new Date(endDateParam) : undefined;
-  });
-
   const { data, error, isError, isPending } = useListAudits(
     page,
     itensPerPage,
-    search,
-    startDate,
-    endDate
+    search
   );
 
   useEffect(() => {
@@ -46,11 +34,9 @@ export default function AuditsPage() {
     if (search) params.search = search;
     if (itensPerPage) params.itensPerPage = String(itensPerPage);
     if (page) params.page = String(page);
-    if (startDate) params.startDate = startDate.toISOString();
-    if (endDate) params.endDate = endDate.toISOString();
 
     setSearchParams(params, { replace: true });
-  }, [search, itensPerPage, page, startDate, endDate, setSearchParams]);
+  }, [search, itensPerPage, page, setSearchParams]);
 
   useEffect(() => {
     if (isError && error) {

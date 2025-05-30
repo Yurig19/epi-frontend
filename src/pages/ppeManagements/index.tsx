@@ -26,27 +26,10 @@ export default function PpeManagementsPage() {
     searchParams.get('search') || ''
   );
 
-  const [status, setStatus] = useState<string>(
-    searchParams.get('status') || ''
-  );
-
-  const [startDate, setStartDate] = useState<Date | undefined>(() => {
-    const startDateParam = searchParams.get('startDate');
-    return startDateParam ? new Date(startDateParam) : undefined;
-  });
-
-  const [endDate, setEndDate] = useState<Date | undefined>(() => {
-    const endDateParam = searchParams.get('endDate');
-    return endDateParam ? new Date(endDateParam) : undefined;
-  });
-
   const { data, isPending, isError, error } = useListPpe(
     page,
     itensPerPage,
-    search,
-    status === 'all' ? '' : status,
-    startDate,
-    endDate
+    search
   );
 
   const { mutate: deletePpe } = useDeletePpe();
@@ -57,12 +40,9 @@ export default function PpeManagementsPage() {
     if (search) params.search = search;
     if (itensPerPage) params.itensPerPage = String(itensPerPage);
     if (page) params.page = String(page);
-    if (status) params.status = status;
-    if (startDate) params.startDate = startDate.toISOString();
-    if (endDate) params.endDate = endDate.toISOString();
 
     setSearchParams(params, { replace: true });
-  }, [search, itensPerPage, page, status, startDate, endDate, setSearchParams]);
+  }, [search, itensPerPage, page, setSearchParams]);
 
   useEffect(() => {
     if (isError && error) {
