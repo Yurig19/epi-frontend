@@ -1,18 +1,7 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -23,18 +12,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useGetByUuidPpeFormPublic } from '@/hooks/ppeForm/use-get-by-uuid-ppeForm-public';
-import { InputField } from '@/components/fields/input';
-import { Input } from '@/components/ui/input';
-import dayjs from 'dayjs';
 import { useUpdatePpeForm } from '@/hooks/ppeForm/use-update-ppeForm';
 import { PpeFormStatusEnum } from '@/enums/ppeFormStatus.enum';
-
-const validationSchema = z.object({
-  cpf: z.string().min(11, 'CPF inválido'),
-  birthDate: z.string().min(10, 'Data inválida'),
-});
-
-type ValidationFormData = z.infer<typeof validationSchema>;
 
 export default function PublicPpeFormPage() {
   const { uuid } = useParams();
@@ -42,44 +21,7 @@ export default function PublicPpeFormPage() {
   const { mutate: updatePpeForm } = useUpdatePpeForm();
   const { data, isError } = useGetByUuidPpeFormPublic(uuid as string);
 
-  const form = useForm<ValidationFormData>({
-    resolver: zodResolver(validationSchema),
-    defaultValues: {
-      cpf: '',
-      birthDate: '',
-    },
-  });
-
-  const { handleSubmit, control } = form;
-
-  const [isValidated, setIsValidated] = useState(false);
   const [isSigned, setIsSigned] = useState(false);
-
-  const onValidate = (values: ValidationFormData) => {
-    console.log(values);
-    if (!data) return;
-
-    const birthDateEmployee = data.employeeData?.birthDate
-      ? dayjs(data.employeeData.birthDate).format('DD/MM/YYYY')
-      : '';
-
-    const matchesCpf = values.cpf === data.employeeData.document;
-    const matchesDob =
-      dayjs(values.birthDate).format('DD/MM/YYYY') === birthDateEmployee;
-
-    if (matchesCpf && matchesDob) {
-      setIsValidated(true);
-      toast.success('Dados validados!', {
-        description: 'Agora, autentique-se com sua digital!',
-        richColors: true,
-      });
-    } else {
-      toast.error('Erro!', {
-        description: 'CPF ou data de nascimento incorretos.',
-        richColors: true,
-      });
-    }
-  };
 
   async function onBiometricSign() {
     try {
@@ -97,11 +39,15 @@ export default function PublicPpeFormPage() {
           uuid: uuid as string,
           updatePpeFormDto: { status: PpeFormStatusEnum.SIGNED },
         });
-        toast.success('Ficha assinada com sucesso!');
+        toast.success('Sucesso!', {
+          description: 'Ficha assinada com sucesso!',
+        });
       }
     } catch (err) {
       console.error(err);
-      toast.error('Erro ao autenticar com biometria.');
+      toast.error('Erro ao autenticar com biometria.', {
+        description: 'Verifique se a biometria está configurada corretamente.',
+      });
     }
   }
 
@@ -116,17 +62,13 @@ export default function PublicPpeFormPage() {
         <p>
           <strong>Funcionário:</strong> {data.employeeData.name}
         </p>
-        {isValidated && (
-          <>
-            <p>
-              <strong>CPF:</strong> {data.employeeData.document}
-            </p>
-            <p>
-              <strong>Data de Nascimento:</strong>{' '}
-              {format(new Date(data.employeeData.birthDate), 'dd/MM/yyyy')}
-            </p>
-          </>
-        )}
+        <p>
+          <strong>CPF:</strong> {data.employeeData.document}
+        </p>
+        <p>
+          <strong>Data de Nascimento:</strong>{' '}
+          {format(new Date(data.employeeData.birthDate), 'dd/MM/yyyy')}
+        </p>
         <p>
           <strong>Data de Vencimento:</strong>{' '}
           {format(new Date(data.expirationAt), 'dd/MM/yyyy')}
@@ -150,44 +92,7 @@ export default function PublicPpeFormPage() {
         </TableBody>
       </Table>
 
-      {!isValidated && !isSigned && (
-        <Form {...form}>
-          <form
-            onSubmit={handleSubmit(onValidate)}
-            className='grid grid-cols-1 md:grid-cols-2 gap-6 pt-6'
-          >
-            <InputField
-              control={control}
-              name='cpf'
-              label='CPF'
-              placeholder='Digite seu CPF'
-              mask='000.000.000-00'
-            />
-
-            <FormField
-              control={form.control}
-              name='birthDate'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Data de Nascimento</FormLabel>
-                  <FormControl>
-                    <Input type='date' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className='md:col-span-2'>
-              <Button variant='outline' type='submit'>
-                Confirmar Dados
-              </Button>
-            </div>
-          </form>
-        </Form>
-      )}
-
-      {isValidated && !isSigned && (
+      {!isSigned && (
         <div className='pt-4'>
           <Button onClick={onBiometricSign}>Assinar com Digital</Button>
         </div>
