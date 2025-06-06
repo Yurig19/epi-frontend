@@ -17,6 +17,10 @@ type UpdatePpeFormDto = {
   linkedEquipments?: LinkedEquipmentsPpeForms[];
 };
 
+type PatchPpeFormStatusDto = {
+  status?: string;
+};
+
 type ReadListPpeFormDto = {
   uuid: string;
   status: string;

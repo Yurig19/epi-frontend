@@ -4,20 +4,16 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { Copy, ShareIcon } from 'lucide-react';
+import { Copy } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-export function SharePopover({
-  uuid,
+export function SharePasskeyPopover({
   employeeUuid,
-}: {
-  uuid: string;
-  employeeUuid: string;
-}) {
+}: { employeeUuid: string }) {
   const [copied, setCopied] = useState(false);
 
-  const publicUrl = `${window.location.origin}/ppeFormsManagement/public/${uuid}/${employeeUuid}`;
+  const publicUrl = `${window.location.origin}/passkeys/${employeeUuid}`;
 
   const handleCopy = async () => {
     try {
@@ -29,19 +25,22 @@ export function SharePopover({
       });
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
-      toast.error('Erro ao copiar link');
+      toast.error('Erro ao copiar link', {
+        richColors: true,
+        description: 'Verifique se o link está correto.',
+      });
     }
   };
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant='outline'>
-          <ShareIcon className='w-4 h-4' />
-        </Button>
+        <Button variant='outline'>Adicionar</Button>
       </PopoverTrigger>
       <PopoverContent className='w-[300px] space-y-2'>
-        <p className='text-sm font-medium'>Compartilhar ficha de EPI</p>
+        <p className='text-sm font-medium'>
+          Compartilhar link para cadastro de passkey
+        </p>
         <div className='bg-muted p-2 rounded text-sm break-all'>
           {publicUrl}
         </div>

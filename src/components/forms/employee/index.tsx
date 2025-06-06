@@ -97,9 +97,11 @@ export function EmployeeForm({
           }
         />
 
-        <Button type='submit' disabled={isLoading ? isLoading : false}>
-          Salvar
-        </Button>
+        {!isView && (
+          <Button type='submit' disabled={isLoading ? isLoading : false}>
+            Salvar
+          </Button>
+        )}
       </form>
     </Form>
   );

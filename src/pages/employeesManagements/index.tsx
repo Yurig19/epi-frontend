@@ -95,14 +95,6 @@ export default function EmployeesManagementsPage() {
               </div>
             </div>
           </div>
-          {/* <div className='flex gap-4'>
-            <DateRangePicker
-              startDate={startDate}
-              setStartDate={setStartDate}
-              endDate={endDate}
-              setEndDate={setEndDate}
-            />
-          </div> */}
         </div>
 
         {isPending ? (

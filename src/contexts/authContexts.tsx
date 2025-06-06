@@ -1,9 +1,9 @@
 import { destroyCookie } from 'nookies';
 import { type ReactNode, createContext, useContext } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import { useCheckAuthUser } from '@/hooks/auth/use-check-user';
 import { useLoginRequest } from '@/hooks/auth/use-login-user';
 import { useRegisterRequest } from '@/hooks/auth/use-register-user';
+import { queryClient } from '@/lib/query-client';
 
 interface AuthContextType {
   user: ReadUserAuthDto | undefined;
@@ -20,8 +20,6 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const queryClient = useQueryClient();
-
   const logout = (): void => {
     queryClient.removeQueries({ queryKey: ['authUser'] });
     destroyCookie(null, 'token', { path: '/' });

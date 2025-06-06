@@ -181,7 +181,10 @@ export default function PpeFormManagementPage() {
             onPageChange={setPage}
             actions={(item) => (
               <div className='flex items-center gap-2'>
-                <SharePopover uuid={item.uuid} />
+                <SharePopover
+                  uuid={item.uuid}
+                  employeeUuid={item.employeeUuid}
+                />
                 <Button variant='outline' asChild>
                   <Link to={`/ppeFormsManagement/view/${item.uuid}`}>
                     <Eye className='w-4 h-4' />

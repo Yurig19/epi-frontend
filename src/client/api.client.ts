@@ -29,7 +29,7 @@ class ApiClient {
 
   async request<T>(
     endpoint: string,
-    method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     body?: any,
     isFile?: boolean
@@ -100,6 +100,15 @@ class ApiClient {
 
   delete<T>(endpoint: string): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, 'DELETE');
+  }
+
+  patch<T>(
+    endpoint: string,
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    body: any,
+    isFile?: boolean
+  ): Promise<ApiResponse<T>> {
+    return this.request<T>(endpoint, 'PATCH', body, isFile);
   }
 }
 

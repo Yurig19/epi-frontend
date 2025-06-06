@@ -3,11 +3,17 @@ import { lazy, Suspense } from 'react';
 import { Skeleton } from './components/ui/skeleton';
 import { useAuth } from './contexts/authContexts';
 
+type RoutesItem = {
+  path: string;
+  element: React.ReactNode;
+};
+
 // AUTH ROUTES
 const LoginPage = lazy(() => import('./pages/login'));
 
 // SYSTEM ROUTES
 const DashboardPage = lazy(() => import('./pages/dashboard'));
+const PasskeysPage = lazy(() => import('./pages/passkeys'));
 
 const PpeFormsManagementPage = lazy(() => import('./pages/ppeFormsManagement'));
 const CreateEditViewPpeFormsPage = lazy(
@@ -17,7 +23,7 @@ const PublicPpeFormPage = lazy(
   () => import('./pages/ppeFormsManagement/public')
 );
 
- const PpeManagementsPage = lazy(() => import('./pages/ppeManagements'));
+const PpeManagementsPage = lazy(() => import('./pages/ppeManagements'));
 
 const EmployeesManagementsPage = lazy(
   () => import('./pages/employeesManagements')
@@ -39,21 +45,25 @@ const SkeletonLoader = () => (
   </div>
 );
 
-const authRoutes = [
+const authRoutes: RoutesItem[] = [
   {
     path: '/',
     element: <LoginPage />,
   },
 ];
 
-const notAuthSystemRoutes = [
+const notAuthSystemRoutes: RoutesItem[] = [
   {
-    path: '/ppeFormsManagement/public/:uuid',
+    path: '/ppeFormsManagement/public/:uuid/:employeeUuid',
     element: <PublicPpeFormPage />,
+  },
+  {
+    path: '/passkeys/:employeeUuid',
+    element: <PasskeysPage />,
   },
 ];
 
-const systemRoutes = [
+const systemRoutes: RoutesItem[] = [
   {
     path: '/',
     element: <DashboardPage />,

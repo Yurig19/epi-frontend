@@ -24,6 +24,16 @@ export async function updatePpeForm(
   );
 }
 
+export async function patchPpeForm(
+  uuid: string,
+  patchPpeFormDto: PatchPpeFormStatusDto
+) {
+  return await api.patch<ReadPpeFormDto>(
+    `/pPEForms/patch-status?uuid=${uuid}`,
+    patchPpeFormDto
+  );
+}
+
 export async function getListPpeForm(
   page: number,
   dataPerPage: number,

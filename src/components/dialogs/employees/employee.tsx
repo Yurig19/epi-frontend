@@ -17,6 +17,10 @@ import { useCreateEmployee } from '@/hooks/employee/use-create-employee';
 import { useUpdateEmployee } from '@/hooks/employee/use-update-employee';
 import { Eye, Pencil } from 'lucide-react';
 import { useSelectDepartments } from '@/hooks/departments/use-select-departments';
+import { useGetByUuidPasskeyPublic } from '@/hooks/passkeys/use-get-passkey-public-by-uuid';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
+import { SharePasskeyPopover } from '@/components/popover/sharePasskey';
 
 interface EmployeeDialogProps {
   defaultValues?: ReadListEmployeesDto;
@@ -53,7 +57,11 @@ export function EmployeeDialog({
   const createMutation = useCreateEmployee();
   const updateMutation = useUpdateEmployee();
 
-  const { data } = useSelectDepartments();
+  const { data: departmentsListOptions } = useSelectDepartments();
+
+  const { data: passkeyData } = useGetByUuidPasskeyPublic(
+    defaultValues?.uuid ?? ''
+  );
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
@@ -148,11 +156,34 @@ export function EmployeeDialog({
 
         <EmployeeForm
           form={form}
-          departmentsListOptions={data ?? []}
+          departmentsListOptions={departmentsListOptions ?? []}
           onSubmit={onSubmit}
           isLoading={isPending}
           isView={isView}
         />
+
+        {(isView || isEdit) && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Passkeys</CardTitle>
+            </CardHeader>
+
+            <CardContent className='flex flex-col gap-4'>
+              {passkeyData && Array.isArray(passkeyData) ? (
+                <ul className='list-disc pl-5'>
+                  {passkeyData.map((passkey) => (
+                    <li key={passkey.uuid}>{passkey.name || 'Sem nome'}</li>
+                  ))}
+                </ul>
+              ) : (
+                <span>Nenhuma Passkey cadastrada.</span>
+              )}
+              {!isView && (
+                <SharePasskeyPopover employeeUuid={defaultValues?.uuid ?? ''} />
+              )}
+            </CardContent>
+          </Card>
+        )}
       </DialogContent>
     </Dialog>
   );
