@@ -19,7 +19,6 @@ import { Eye, Pencil } from 'lucide-react';
 import { useSelectDepartments } from '@/hooks/departments/use-select-departments';
 import { useGetByUuidPasskeyPublic } from '@/hooks/passkeys/use-get-passkey-public-by-uuid';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Link } from 'react-router-dom';
 import { SharePasskeyPopover } from '@/components/popover/sharePasskey';
 
 interface EmployeeDialogProps {
