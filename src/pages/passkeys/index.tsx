@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCreatePasskey } from '@/hooks/passkeys/use-create-passkey';
+import { useGetByUuidEmployee } from '@/hooks/employee/use-get-by-uuid';
 
 function bufferDecode(value: string) {
   return Uint8Array.from(
@@ -22,23 +23,28 @@ export default function PasskeyRegisterPage() {
   const { employeeUuid } = useParams();
   const { mutate: createPasskey } = useCreatePasskey();
   const [loading, setLoading] = useState(false);
+  const { data: employee } = useGetByUuidEmployee(employeeUuid ?? '');
 
   async function handleRegisterPasskey() {
     if (!employeeUuid) {
       toast.error('Funcionário não identificado.', {
         description: 'Verifique se o funcionário está correto.',
+        richColors: true,
       });
       return;
     }
+
     setLoading(true);
     try {
+      const employeeName = employee?.name ?? '';
+
       const publicKey: PublicKeyCredentialCreationOptions = {
         challenge: new Uint8Array(32),
         rp: { name: 'EPI' },
         user: {
           id: bufferDecode(employeeUuid),
-          name: employeeUuid,
-          displayName: employeeUuid,
+          name: employeeName,
+          displayName: employeeName,
         },
         pubKeyCredParams: [{ type: 'public-key', alg: -7 }],
         timeout: 60000,

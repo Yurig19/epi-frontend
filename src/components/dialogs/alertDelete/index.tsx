@@ -22,6 +22,7 @@ interface AlertDeleteDialogProps {
   element: string;
   handleDelete: (uuid: string) => void;
   elementUuid: string;
+  isLoading?: boolean;
 }
 
 export function AlertDeleteDialog({

@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/table';
 import { useGetDashboardData } from '@/hooks/dashboard/use-get-data';
 import { formatDate } from '@/utils/format-date';
+import { PpeFormStatusEnum } from '@/enums/ppeFormStatus.enum';
 
 const COLORS = ['#22c55e', '#ef4444'];
 
@@ -141,7 +142,22 @@ export default function DashboardPage() {
                     (ppe: ReadLastPpeFormsActive) => (
                       <TableRow key={ppe.uuid}>
                         <TableCell>{ppe.employeeName}</TableCell>
-                        <TableCell>{ppe.status}</TableCell>
+                        <TableCell>
+                          <div className='flex items-center gap-2'>
+                            <span
+                              className={`w-2 h-2 rounded-full ${
+                                ppe.status === PpeFormStatusEnum.SIGNED
+                                  ? 'bg-green-500'
+                                  : 'bg-red-500'
+                              }`}
+                            />
+                            <span>
+                              {ppe.status === PpeFormStatusEnum.SIGNED
+                                ? 'Assinado'
+                                : 'Não Assinado'}
+                            </span>
+                          </div>
+                        </TableCell>
                         <TableCell>{formatDate(ppe.createdAt)}</TableCell>
                       </TableRow>
                     )

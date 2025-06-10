@@ -62,107 +62,109 @@ const DataTableWithPagination = <T,>({
   const endPage = Math.min(totalPages, startPage + maxPageNumbersToShow - 1);
 
   return (
-    <div className='border border-border p-5 rounded-lg w-full max-w-screen-2xl mx-auto overflow-x-auto'>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            {columns.map((column) => (
-              <TableHead key={String(column.key)} className='text-left'>
-                {column.label}
-              </TableHead>
-            ))}
-            {actions && <TableHead>Ações</TableHead>}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.map((item) => (
-            <TableRow key={String(item[columns[0].key])}>
+    <div className='border border-border p-5 rounded-lg w-full max-w-screen-2xl mx-auto'>
+      <div className='w-full overflow-x-auto'>
+        <Table>
+          <TableHeader>
+            <TableRow>
               {columns.map((column) => (
-                <TableCell
-                  key={String(column.key)}
-                  className={`text-left ${column.cellStyle ? column.cellStyle(item) : ''}`}
-                >
-                  {column.render
-                    ? column.render(item)
-                    : item[column.key] !== null &&
-                        item[column.key] !== undefined &&
-                        item[column.key] !== ''
-                      ? (item[column.key] as React.ReactNode)
-                      : '-'}
-                </TableCell>
+                <TableHead key={String(column.key)} className='text-left'>
+                  {column.label}
+                </TableHead>
               ))}
-              {actions && (
-                <TableCell className='text-right flex items-center gap-2'>
-                  {actions(item)}
-                </TableCell>
-              )}
+              {actions && <TableHead>Ações</TableHead>}
             </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={columns.length + (actions ? 1 : 0)}>
-              <div className='flex justify-between'>
-                <div className='flex items-center gap-2'>
-                  <Select
-                    onValueChange={(value: string) =>
-                      onItemsPerPageChange(Number(value))
-                    }
-                    defaultValue={String(itemsPerPage)}
+          </TableHeader>
+          <TableBody>
+            {data.map((item) => (
+              <TableRow key={String(item[columns[0].key])}>
+                {columns.map((column) => (
+                  <TableCell
+                    key={String(column.key)}
+                    className={`text-left ${column.cellStyle ? column.cellStyle(item) : ''}`}
                   >
-                    <SelectTrigger>
-                      <SelectValue placeholder='Itens por página' />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {itemsPerPageOptions.map((option) => (
-                        <SelectItem key={option} value={String(option)}>
-                          {option}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                    {column.render
+                      ? column.render(item)
+                      : item[column.key] !== null &&
+                          item[column.key] !== undefined &&
+                          item[column.key] !== ''
+                        ? (item[column.key] as React.ReactNode)
+                        : '-'}
+                  </TableCell>
+                ))}
+                {actions && (
+                  <TableCell className='text-right flex items-center gap-2'>
+                    {actions(item)}
+                  </TableCell>
+                )}
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={columns.length + (actions ? 1 : 0)}>
+                <div className='flex justify-between'>
+                  <div className='flex items-center gap-2'>
+                    <Select
+                      onValueChange={(value: string) =>
+                        onItemsPerPageChange(Number(value))
+                      }
+                      defaultValue={String(itemsPerPage)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder='Itens por página' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {itemsPerPageOptions.map((option) => (
+                          <SelectItem key={option} value={String(option)}>
+                            {option}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious
-                        href='#'
-                        onClick={() =>
-                          currentPage > 1 && onPageChange(currentPage - 1)
-                        }
-                      />
-                    </PaginationItem>
-                    {Array.from(
-                      { length: endPage - startPage + 1 },
-                      (_, i) => startPage + i
-                    ).map((pageNumber) => (
-                      <PaginationItem key={`page-${pageNumber}`}>
-                        <PaginationLink
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
                           href='#'
-                          onClick={() => onPageChange(pageNumber)}
-                          isActive={pageNumber === currentPage}
-                        >
-                          {pageNumber}
-                        </PaginationLink>
+                          onClick={() =>
+                            currentPage > 1 && onPageChange(currentPage - 1)
+                          }
+                        />
                       </PaginationItem>
-                    ))}
-                    <PaginationItem>
-                      <PaginationNext
-                        href='#'
-                        onClick={() =>
-                          currentPage < totalPages &&
-                          onPageChange(currentPage + 1)
-                        }
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-              </div>
-            </TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
+                      {Array.from(
+                        { length: endPage - startPage + 1 },
+                        (_, i) => startPage + i
+                      ).map((pageNumber) => (
+                        <PaginationItem key={`page-${pageNumber}`}>
+                          <PaginationLink
+                            href='#'
+                            onClick={() => onPageChange(pageNumber)}
+                            isActive={pageNumber === currentPage}
+                          >
+                            {pageNumber}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                      <PaginationItem>
+                        <PaginationNext
+                          href='#'
+                          onClick={() =>
+                            currentPage < totalPages &&
+                            onPageChange(currentPage + 1)
+                          }
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </div>
     </div>
   );
 };

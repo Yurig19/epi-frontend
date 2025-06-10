@@ -23,10 +23,6 @@ export function usePatchStatusPpeForms(): UseMutationResult<
 
       if (response.data) {
         queryClient.invalidateQueries({ queryKey: ['ppeForms'] });
-        toast.success('Sucesso!', {
-          description: 'Status da ficha de EPI atualizada com sucesso',
-          richColors: true,
-        });
       }
     },
   });

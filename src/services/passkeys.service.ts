@@ -6,14 +6,14 @@ export function createPasskey(
   challenge?: string
 ) {
   return api.post<ReadPasskeyDto>(
-    `/passkeys/create?employeeUuid=${employeeUuid}&challenge=${challenge}`,
+    `/passkey/create?employeeUuid=${employeeUuid}&challenge=${challenge}`,
     createWebauthnPasskeyBodyDto
   );
 }
 
 export function getByEmployeeUuid(employeeUuid: string) {
   return api.get<ReadPasskeyDto[]>(
-    `/passkeys/get-by-employee-uuid?employeeUuid=${employeeUuid}`
+    `/passkey/get-by-employee-uuid?employeeUuid=${employeeUuid}`
   );
 }
 
@@ -22,7 +22,11 @@ export function verifyPasskey(
   employeeUuid: string
 ) {
   return api.post<ReadVerifyPasskeyDto>(
-    `/passkeys/verify?employeeUuid=${employeeUuid}`,
+    `/passkey/verify?employeeUuid=${employeeUuid}`,
     verifyWebauthnPasskeyBodyDto
   );
+}
+
+export function deletePasskey(uuid: string) {
+  return api.delete<DeleteDto>(`/passkey/delete?uuid=${uuid}`);
 }

@@ -4,13 +4,14 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { Copy } from 'lucide-react';
+import { Copy, Share } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 export function SharePasskeyPopover({
   employeeUuid,
-}: { employeeUuid: string }) {
+  isEdit = false,
+}: { employeeUuid: string; isEdit?: boolean }) {
   const [copied, setCopied] = useState(false);
 
   const publicUrl = `${window.location.origin}/passkeys/${employeeUuid}`;
@@ -35,7 +36,13 @@ export function SharePasskeyPopover({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant='outline'>Adicionar</Button>
+        {isEdit ? (
+          <Button variant='outline'>Adicionar</Button>
+        ) : (
+          <Button variant='outline'>
+            <Share size={16} />
+          </Button>
+        )}
       </PopoverTrigger>
       <PopoverContent className='w-[300px] space-y-2'>
         <p className='text-sm font-medium'>

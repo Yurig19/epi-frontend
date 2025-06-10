@@ -4,6 +4,10 @@ export function createEmployee(createEmployeeDto: CreateEmployeeDto) {
   return api.post<ReadEmployeesDto>('/employees/create', createEmployeeDto);
 }
 
+export function getByUuid(uuid: string) {
+  return api.get<ReadEmployeesDto>(`/employees/get-by-uuid?uuid=${uuid}`);
+}
+
 export async function listEmployees(
   page: number,
   dataPerPage: number,

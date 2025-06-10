@@ -1,5 +1,6 @@
 import AlertDeleteDialog from '@/components/dialogs/alertDelete';
 import { EmployeeDialog } from '@/components/dialogs/employees/employee';
+import { SharePasskeyPopover } from '@/components/popover/sharePasskey';
 import DataTableWithPagination, { type Column } from '@/components/table';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -24,6 +25,7 @@ export default function EmployeesManagementsPage() {
   const [search, setSearch] = useState<string>(
     searchParams.get('search') || ''
   );
+  0;
 
   const { data, isPending, isError, error } = useListEmployee(
     page,
@@ -127,6 +129,7 @@ export default function EmployeesManagementsPage() {
             onPageChange={setPage}
             actions={(item) => (
               <div className='flex items-center gap-2'>
+                <SharePasskeyPopover employeeUuid={item.uuid ?? ''} />
                 <EmployeeDialog isView defaultValues={item} />
                 <EmployeeDialog isEdit defaultValues={item} />
                 <AlertDeleteDialog

@@ -15,11 +15,13 @@ import { createEmployeeSchema } from '@/schemas/employee.schema';
 import { useState, useEffect } from 'react';
 import { useCreateEmployee } from '@/hooks/employee/use-create-employee';
 import { useUpdateEmployee } from '@/hooks/employee/use-update-employee';
-import { Eye, Pencil } from 'lucide-react';
+import { Eye, Pencil, Trash } from 'lucide-react';
 import { useSelectDepartments } from '@/hooks/departments/use-select-departments';
 import { useGetByUuidPasskeyPublic } from '@/hooks/passkeys/use-get-passkey-public-by-uuid';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SharePasskeyPopover } from '@/components/popover/sharePasskey';
+import { useDeletePasskey } from '@/hooks/passkeys/use-delete-passkey';
+import AlertDeleteDialog from '../alertDelete';
 
 interface EmployeeDialogProps {
   defaultValues?: ReadListEmployeesDto;
@@ -61,6 +63,8 @@ export function EmployeeDialog({
   const { data: passkeyData } = useGetByUuidPasskeyPublic(
     defaultValues?.uuid ?? ''
   );
+
+  const { mutate: deletePasskey } = useDeletePasskey();
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
@@ -171,7 +175,16 @@ export function EmployeeDialog({
               {passkeyData && Array.isArray(passkeyData) ? (
                 <ul className='list-disc pl-5'>
                   {passkeyData.map((passkey) => (
-                    <li key={passkey.uuid}>{passkey.name || 'Sem nome'}</li>
+                    <li key={passkey.uuid} className='flex items-center gap-2'>
+                      {passkey.name || 'Sem nome'}
+                      {!isView && (
+                        <AlertDeleteDialog
+                          element='Passkey'
+                          elementUuid={passkey.uuid}
+                          handleDelete={deletePasskey}
+                        />
+                      )}
+                    </li>
                   ))}
                 </ul>
               ) : (
