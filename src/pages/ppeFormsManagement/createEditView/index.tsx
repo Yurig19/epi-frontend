@@ -25,7 +25,7 @@ import {
   PopoverContent,
 } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { CalendarIcon, Edit, Trash } from 'lucide-react';
+import { CalendarIcon, Edit, Loader2, Trash } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Table,
@@ -80,7 +80,9 @@ export default function CreateEditViewPpeFormsPage() {
   const { data: employeeList } = useSelectEmployees();
   const { data: ppeList } = useSelectPpe();
 
-  const { data, error, isError } = useGetByUuidPpeForm(uuid as string);
+  const { data, error, isPending, isError } = useGetByUuidPpeForm(
+    uuid as string
+  );
 
   const { mutate: createPpeForm } = useCreatePpeForm();
   const { mutate: updatePpeForm } = useUpdatePpeForm();
@@ -156,6 +158,14 @@ export default function CreateEditViewPpeFormsPage() {
       });
     }
   }, [data, form]);
+
+  if (isPending) {
+    return (
+      <div className='flex justify-center items-center h-screen'>
+        <Loader2 className='w-10 h-10 animate-spin' />
+      </div>
+    );
+  }
 
   return (
     <LayoutBase
