@@ -15,7 +15,7 @@ import { createEmployeeSchema } from '@/schemas/employee.schema';
 import { useState, useEffect } from 'react';
 import { useCreateEmployee } from '@/hooks/employee/use-create-employee';
 import { useUpdateEmployee } from '@/hooks/employee/use-update-employee';
-import { Eye, Pencil, Trash } from 'lucide-react';
+import { Eye, Pencil } from 'lucide-react';
 import { useSelectDepartments } from '@/hooks/departments/use-select-departments';
 import { useGetByUuidPasskeyPublic } from '@/hooks/passkeys/use-get-passkey-public-by-uuid';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
