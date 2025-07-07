@@ -173,9 +173,10 @@ export function EmployeeDialog({
 
             <CardContent className='flex flex-col gap-4'>
               {passkeyData && Array.isArray(passkeyData) ? (
-                <ul className='list-disc pl-5'>
+                <ul className='list-disc pl-5 space-y-2'>
                   {passkeyData.map((passkey) => (
                     <li key={passkey.uuid} className='flex items-center gap-2'>
+                      <div className='w-2 h-2 rounded-full bg-primary' />
                       {passkey.name || 'Sem nome'}
                       {!isView && (
                         <AlertDeleteDialog

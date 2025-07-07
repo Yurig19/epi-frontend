@@ -23,6 +23,7 @@ export default function PasskeyRegisterPage() {
   const { employeeUuid } = useParams();
   const { mutate: createPasskey } = useCreatePasskey();
   const [loading, setLoading] = useState(false);
+
   const { data: employee } = useGetByUuidEmployee(employeeUuid ?? '');
 
   async function handleRegisterPasskey() {
